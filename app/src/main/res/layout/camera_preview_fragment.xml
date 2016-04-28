@@ -10,74 +10,105 @@
         android:id="@+id/camera_preview">
 
     </FrameLayout>
-    <LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android" android:layout_gravity="bottom" android:background="#00000000"
-        android:layout_alignBottom="@+id/camera_preview">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_above="@+id/viewflipper">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageCircle1"
-            android:src="@drawable/ic_panorama_fish_eye_black_24dp"
-            android:layout_margin="5dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageCircle2"
-            android:src="@drawable/ic_panorama_fish_eye_black_24dp"
-            android:layout_margin="5dp" />
-    </LinearLayout>
-
-    <ViewFlipper
-        android:id="@+id/viewflipper"
+    <LinearLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
-
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:background="#00000000"
+        android:layout_alignBottom="@+id/camera_preview">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#00ff00">
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_above="@+id/viewflipper"
+            android:layout_marginBottom="5dp">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Первый экран" />
+                android:id="@+id/imageCircle1"
+                android:src="@drawable/circle_black"
+                android:layout_marginRight="2dp" />
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="На следующую страницу" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#ff0000" >
-
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Второй экран" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="На предыдущую страницу" />
+                android:id="@+id/imageCircle2"
+                android:src="@drawable/circle_black"
+                android:layout_marginLeft="2dp" />
         </LinearLayout>
-    </ViewFlipper>
+
+        <ViewFlipper
+            android:id="@+id/viewflipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="#25272a"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                >
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/switchButton"
+                    android:background="#25272a"
+                    android:src="@drawable/switch_"
+                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="43dp"
+                    android:layout_marginStart="43dp" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/shotButton"
+                    android:background="#25272a"
+                    android:src="@drawable/shot_picture_button"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="#64000000"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                >
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#64000000"
+                    android:src="@drawable/switch_"
+                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="43dp"
+                    android:layout_marginStart="43dp" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recordButton"
+                    android:background="#64000000"
+                    android:src="@drawable/record_button"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+        </ViewFlipper>
     </LinearLayout>
 </RelativeLayout>

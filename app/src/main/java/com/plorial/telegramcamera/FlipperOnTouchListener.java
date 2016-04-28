@@ -1,6 +1,5 @@
 package com.plorial.telegramcamera;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,9 +25,9 @@ public class FlipperOnTouchListener implements View.OnTouchListener {
         this.view = view;
         circle1 = (ImageView) view.findViewById(R.id.imageCircle1);
         circle2 = (ImageView) view.findViewById(R.id.imageCircle2);
-        blackCircleDrawable = view.getContext().getResources().getDrawable(R.drawable.ic_fiber_manual_record_black_24dp);
-        whiteCircleDrawable = view.getContext().getResources().getDrawable(R.drawable.ic_panorama_fish_eye_black_24dp);
-        circle1.setImageDrawable(blackCircleDrawable);
+        blackCircleDrawable = view.getContext().getResources().getDrawable(R.drawable.circle_black);
+        whiteCircleDrawable = view.getContext().getResources().getDrawable(R.drawable.circle_white);
+        circle1.setImageDrawable(whiteCircleDrawable);
         flipper = (ViewFlipper) view.findViewById(R.id.viewflipper);
     }
 
@@ -44,15 +43,15 @@ public class FlipperOnTouchListener implements View.OnTouchListener {
                     flipper.setInAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.go_next_in));
                     flipper.setOutAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.go_next_out));
                     flipper.showNext();
-                    circle2.setImageDrawable(blackCircleDrawable);
-                    circle1.setImageDrawable(whiteCircleDrawable);
+                    circle2.setImageDrawable(whiteCircleDrawable);
+                    circle1.setImageDrawable(blackCircleDrawable);
                 }
                 else if (fromPosition > toPosition && flipper.getCurrentView() ==flipper.getChildAt(1)) {
                     flipper.setInAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.go_prev_in));
                     flipper.setOutAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.go_prev_out));
                     flipper.showPrevious();
-                    circle2.setImageDrawable(whiteCircleDrawable);
-                    circle1.setImageDrawable(blackCircleDrawable);
+                    circle2.setImageDrawable(blackCircleDrawable);
+                    circle1.setImageDrawable(whiteCircleDrawable);
                 }
             default:
                 break;
