@@ -39,76 +39,51 @@
                 android:layout_marginLeft="2dp" />
         </LinearLayout>
 
-        <ViewFlipper
-            android:id="@+id/viewflipper"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#25272a"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:id="@+id/relativeLayout"
+            >
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:background="#25272a"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                >
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/switchButton"
-                    android:background="#25272a"
-                    android:src="@drawable/switch_"
-                    android:layout_gravity="center_vertical"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="43dp"
-                    android:layout_marginStart="43dp" />
-
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/switchButton"
+                android:background="#0025272a"
+                android:src="@drawable/switch_"
+                android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="43dp"
+                android:layout_marginStart="43dp" />
+            <ViewSwitcher
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/switcher">
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/shotButton"
-                    android:background="#25272a"
+                    android:background="#00ffffff"
                     android:src="@drawable/shot_picture_button"
-                    android:layout_centerHorizontal="true" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:background="#64000000"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                >
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#64000000"
-                    android:src="@drawable/switch_"
-                    android:layout_gravity="center_vertical"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="43dp"
-                    android:layout_marginStart="43dp" />
-
+                     />
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/recordButton"
-                    android:background="#64000000"
+                    android:background="#00000000"
                     android:src="@drawable/record_button"
                     android:layout_centerHorizontal="true" />
-
-            </RelativeLayout>
-        </ViewFlipper>
+            </ViewSwitcher>
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
