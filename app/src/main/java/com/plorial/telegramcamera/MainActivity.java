@@ -22,7 +22,6 @@ public class MainActivity extends Activity {
         CameraPreviewFragment fragment = new CameraPreviewFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 }

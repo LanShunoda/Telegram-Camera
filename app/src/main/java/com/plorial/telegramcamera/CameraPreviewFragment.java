@@ -1,6 +1,5 @@
 package com.plorial.telegramcamera;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -35,7 +33,7 @@ public class CameraPreviewFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.camera_preview_fragment, container, false);
-        currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+        currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
         camera = getCameraInstance(currentCameraId);
 
         preview = new CameraPreview(getActivity(), camera);
@@ -43,7 +41,7 @@ public class CameraPreviewFragment extends Fragment{
         frameLayout = (FrameLayout) view.findViewById(R.id.camera_preview);
         frameLayout.addView(preview);
 
-        frameLayout.setOnTouchListener(new FlipperOnTouchListener(view));
+        frameLayout.setOnTouchListener(new SwitcherOnTouchListener(view));
         final Animation animationRotate = AnimationUtils.loadAnimation(
                 getActivity(), R.anim.rotate);
 
@@ -53,10 +51,32 @@ public class CameraPreviewFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 switchButton.startAnimation(animationRotate);
+                switchCamera();
             }
         });
 
         return view;
+    }
+
+    private void switchCamera(){
+        camera.stopPreview();
+        camera.release();
+        if(currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK){
+            currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+        }
+        else {
+            currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+        }
+        camera = Camera.open(currentCameraId);
+
+        CameraPreview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
+        try {
+
+            camera.setPreviewDisplay(preview.getHolder());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        camera.startPreview();
     }
 
     private Camera getCameraInstance(int id){

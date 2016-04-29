@@ -16,7 +16,7 @@ import android.widget.ViewSwitcher;
 /**
  * Created by plorial on 4/28/16.
  */
-public class FlipperOnTouchListener implements View.OnTouchListener {
+public class SwitcherOnTouchListener implements View.OnTouchListener {
 
     private static final int ANIM_SPEED = 500;
     private float fromPosition = 0;
@@ -32,7 +32,7 @@ public class FlipperOnTouchListener implements View.OnTouchListener {
     private int colorPicture;
     private int colorVideo;
 
-    public FlipperOnTouchListener(View view) {
+    public SwitcherOnTouchListener(View view) {
         this.view = view;
         circle1 = (ImageView) view.findViewById(R.id.imageCircle1);
         circle2 = (ImageView) view.findViewById(R.id.imageCircle2);

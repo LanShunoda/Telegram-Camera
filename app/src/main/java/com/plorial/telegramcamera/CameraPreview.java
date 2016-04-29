@@ -1,5 +1,6 @@
 package com.plorial.telegramcamera;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.RectF;
@@ -60,7 +61,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } catch (Exception e){
             // ignore: tried to stop a non-existent preview
         }
-        setCameraDisplayOrientation(0);
+        setCameraDisplayOrientation(context,0,camera);
         try {
             camera.setPreviewDisplay(this.holder);
             camera.startPreview();
@@ -97,35 +98,28 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         getLayoutParams().width = (int) (rectPreview.right);
     }
 
-    void setCameraDisplayOrientation(int cameraId) {
-        int rotation = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+    public static void setCameraDisplayOrientation(Context context,
+                                                   int cameraId, android.hardware.Camera camera) {
+        android.hardware.Camera.CameraInfo info =
+                new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo(cameraId, info);
+        int rotation = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
+                .getRotation();
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
-            case Surface.ROTATION_90:
-                degrees = 90;
-                break;
-            case Surface.ROTATION_180:
-                degrees = 180;
-                break;
-            case Surface.ROTATION_270:
-                degrees = 270;
-                break;
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
         }
-        int result = 0;
-        Camera.CameraInfo info = new Camera.CameraInfo();
-        Camera.getCameraInfo(cameraId, info);
 
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-            result = ((360 - degrees) + info.orientation);
-        } else
-            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                result = ((360 - degrees) - info.orientation);
-                result += 360;
-            }
-        result = result % 360;
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
         camera.setDisplayOrientation(result);
     }
 }
