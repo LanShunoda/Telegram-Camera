@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:viewportWidth="40"
     android:viewportHeight="40"
     android:width="22dp"
-    android:height="22dp">
+    android:height="22dp"
+
+    app:vc_viewportHeight="40"
+    app:vc_viewportWidth="40">
     <path
         android:name="switch_circle"
         android:pathData="@string/hollow_circle"
-        android:fillColor="#ffffff" />
+        android:fillColor="#ffffff"
+        app:vc_pathData="@string/hollow_circle"
+        app:vc_fillColor="#ffffff" />
 </vector>

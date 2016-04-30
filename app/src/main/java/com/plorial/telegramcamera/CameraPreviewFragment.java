@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +14,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+
+import com.wnafee.vector.compat.AnimatedVectorDrawable;
 
 import java.io.IOException;
 
@@ -55,12 +56,12 @@ public class CameraPreviewFragment extends Fragment{
                 switchButton.startAnimation(animationRotate);
                 AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
                 if(!isSwitchCircleFilled) {
-                    AnimatedVectorDrawableCompat drawableFilling = AnimatedVectorDrawableCompat.create(getActivity(), R.drawable.switch_circle_filling_vector);
+                    AnimatedVectorDrawable drawableFilling = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_filling_vector);
                     switchCircle.setImageDrawable(drawableFilling);
                     drawableFilling.start();
                     isSwitchCircleFilled = true;
                 }else{
-                    AnimatedVectorDrawableCompat drawableHollowing = AnimatedVectorDrawableCompat.create(getActivity(), R.drawable.switch_circle_hollowing_vector);
+                    AnimatedVectorDrawable drawableHollowing = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_hollowing_vector);
                     switchCircle.setImageDrawable(drawableHollowing);
                     drawableHollowing.start();
                     isSwitchCircleFilled = false;
