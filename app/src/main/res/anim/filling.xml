@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+    android:duration="500"
+    android:propertyName="filling"
+    android:valueFrom="M5 20A15 15 0 1 0 35 20A15 15 0 1 0 5 20M10 20A10 10 0 1 1 30 20A10 10 0 1 1 10 20"
+        android:valueTo="M5 20A15 15 0 1 0 35 20A15 15 0 1 0 5 20M0 20A0 0 0 1 1 30 20A0 0 0 1 1 0 20"
+        android:valueType="pathType" />
+</set>

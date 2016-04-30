@@ -3,6 +3,9 @@ package com.plorial.telegramcamera;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.drawable.Drawable;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -22,8 +25,8 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private float fromPosition = 0;
     private View view;
 
-    private ImageView circle1;
-    private ImageView circle2;
+    private AppCompatImageView circle1;
+    private AppCompatImageView circle2;
     private Drawable blackCircleDrawable;
     private Drawable whiteCircleDrawable;
     private final ViewSwitcher switcher;
@@ -34,12 +37,11 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
 
     public SwitcherOnTouchListener(View view) {
         this.view = view;
-        circle1 = (ImageView) view.findViewById(R.id.imageCircle1);
-        circle2 = (ImageView) view.findViewById(R.id.imageCircle2);
-        blackCircleDrawable = view.getContext().getResources().getDrawable(R.drawable.circle_black);
-        whiteCircleDrawable = view.getContext().getResources().getDrawable(R.drawable.circle_white);
+        circle1 = (AppCompatImageView) view.findViewById(R.id.imageCircle1);
+        circle2 = (AppCompatImageView) view.findViewById(R.id.imageCircle2);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.relativeLayout);
-        circle1.setImageDrawable(whiteCircleDrawable);
+        circle1.setImageResource(R.drawable.circle_white);
+        circle2.setImageResource(R.drawable.circle_black);
         switcher = (ViewSwitcher) view.findViewById(R.id.switcher);
 
         colorPicture = view.getContext().getResources().getColor(R.color.colorPicture);
@@ -64,15 +66,15 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                 float toPosition = event.getX();
                 if (fromPosition < toPosition && switcher.getCurrentView() ==switcher.getChildAt(0)) {
                     switcher.showNext();
-                    circle2.setImageDrawable(whiteCircleDrawable);
-                    circle1.setImageDrawable(blackCircleDrawable);
+                    circle1.setImageResource(R.drawable.circle_black);
+                    circle2.setImageResource(R.drawable.circle_white);
 
                    relativeLayoutBackgroundAnim(colorPicture, colorVideo);
                 }
                 else if (fromPosition > toPosition && switcher.getCurrentView() ==switcher.getChildAt(1)) {
                     switcher.showPrevious();
-                    circle2.setImageDrawable(blackCircleDrawable);
-                    circle1.setImageDrawable(whiteCircleDrawable);
+                    circle1.setImageResource(R.drawable.circle_white);
+                    circle2.setImageResource(R.drawable.circle_black);
 
                     relativeLayoutBackgroundAnim(colorVideo, colorPicture);
                 }

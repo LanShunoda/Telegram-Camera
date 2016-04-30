@@ -3,9 +3,14 @@ package com.plorial.telegramcamera;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +37,7 @@ public class CameraPreviewFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.camera_preview_fragment, container, false);
+        final View view = inflater.inflate(R.layout.camera_preview_fragment, container, false);
         currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
         camera = getCameraInstance(currentCameraId);
 
@@ -45,13 +50,19 @@ public class CameraPreviewFragment extends Fragment{
         final Animation animationRotate = AnimationUtils.loadAnimation(
                 getActivity(), R.anim.rotate);
 
-        final ImageButton switchButton = (ImageButton) view.findViewById(R.id.switchButton);
+        final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
 
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switchButton.startAnimation(animationRotate);
                 switchCamera();
+                AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
+                VectorDrawableCompat drawable = (VectorDrawableCompat) switchCircle.getDrawable();
+                if (drawable instanceof Animatable){
+                    Log.d(TAG,"anim");
+                    ((Animatable) drawable).start();
+                }
             }
         });
 

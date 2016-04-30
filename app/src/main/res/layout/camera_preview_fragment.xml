@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,18 +25,18 @@
             android:layout_above="@+id/viewflipper"
             android:layout_marginBottom="5dp">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageCircle1"
-                android:src="@drawable/circle_black"
+                app:srcCompat="@drawable/circle_black"
                 android:layout_marginRight="2dp" />
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageCircle2"
-                android:src="@drawable/circle_black"
+                app:srcCompat="@drawable/circle_black"
                 android:layout_marginLeft="2dp" />
         </LinearLayout>
 
@@ -51,13 +52,24 @@
             android:layout_alignParentBottom="true"
             android:id="@+id/relativeLayout"
             >
-
-            <ImageButton
+            <android.support.v7.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/switchButtonCircle"
+                android:background="#0025272a"
+                app:srcCompat="@drawable/switch_circle"
+                android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_alignRight="@+id/switchButton"
+                android:layout_alignEnd="@+id/switchButton"
+                android:layout_marginRight="12dp"
+                android:layout_marginEnd="12dp" />
+            <android.support.v7.widget.AppCompatImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/switchButton"
                 android:background="#0025272a"
-                android:src="@drawable/switch_"
+                app:srcCompat="@drawable/switch_"
                 android:layout_gravity="center_vertical"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
@@ -69,19 +81,19 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/switcher">
-                <ImageButton
+                <android.support.v7.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/shotButton"
                     android:background="#00ffffff"
-                    android:src="@drawable/shot_picture_button"
+                    app:srcCompat="@drawable/shot_picture_button"
                      />
-                <ImageButton
+                <android.support.v7.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/recordButton"
                     android:background="#00000000"
-                    android:src="@drawable/record_button"
+                    app:srcCompat="@drawable/record_button"
                     android:layout_centerHorizontal="true" />
             </ViewSwitcher>
         </RelativeLayout>
