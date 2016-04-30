@@ -3,13 +3,10 @@ package com.plorial.telegramcamera;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 
 import java.io.IOException;
 
@@ -33,12 +29,13 @@ public class CameraPreviewFragment extends Fragment{
     private CameraPreview preview;
     private int currentCameraId;
     private FrameLayout frameLayout;
+    private boolean isSwitchCircleFilled = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.camera_preview_fragment, container, false);
-        currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+        currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
         camera = getCameraInstance(currentCameraId);
 
         preview = new CameraPreview(getActivity(), camera);
@@ -56,13 +53,19 @@ public class CameraPreviewFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 switchButton.startAnimation(animationRotate);
-                switchCamera();
                 AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
-                VectorDrawableCompat drawable = (VectorDrawableCompat) switchCircle.getDrawable();
-                if (drawable instanceof Animatable){
-                    Log.d(TAG,"anim");
-                    ((Animatable) drawable).start();
+                if(!isSwitchCircleFilled) {
+                    AnimatedVectorDrawableCompat drawableFilling = AnimatedVectorDrawableCompat.create(getActivity(), R.drawable.switch_circle_filling_vector);
+                    switchCircle.setImageDrawable(drawableFilling);
+                    drawableFilling.start();
+                    isSwitchCircleFilled = true;
+                }else{
+                    AnimatedVectorDrawableCompat drawableHollowing = AnimatedVectorDrawableCompat.create(getActivity(), R.drawable.switch_circle_hollowing_vector);
+                    switchCircle.setImageDrawable(drawableHollowing);
+                    drawableHollowing.start();
+                    isSwitchCircleFilled = false;
                 }
+                switchCamera();
             }
         });
 
@@ -98,6 +101,7 @@ public class CameraPreviewFragment extends Fragment{
             }
         }
         catch (Exception e){
+            e.printStackTrace();
             Log.e(TAG, "Camera isn't available");
         }
         return c;

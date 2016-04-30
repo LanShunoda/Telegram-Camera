@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Telegram Camera</string>
     <string name="action_settings">Settings</string>
+    <string name="hollow_circle">M5 20A15 15 0 1 0 35 20A15 15 0 1 0 5 20M10 20A10 10 0 1 1 30 20A10 10 0 1 1 10 20</string>
+    <string name="fill_circle">M5 20A15 15 0 1 0 35 20A15 15 0 1 0 5 20M0 20A0 0 0 1 1 30 20A0 0 0 1 1 0 20</string>
+
 </resources>
