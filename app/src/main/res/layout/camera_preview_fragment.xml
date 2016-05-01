@@ -93,8 +93,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/recordButton"
                     android:background="#00000000"
-                    app:srcCompat="@drawable/record_button"
-                    android:layout_centerHorizontal="true" />
+                    app:srcCompat="@drawable/record_button_extended"
+                     />
             </ViewSwitcher>
         </RelativeLayout>
     </LinearLayout>

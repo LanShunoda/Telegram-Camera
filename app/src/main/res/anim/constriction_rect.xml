@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <objectAnimator
+        android:duration="500"
+        android:propertyName="pathData"
+        android:valueFrom="@string/record_rect_path_extended"
+        android:valueTo="@string/record_rect_path_start"
+        android:valueType="pathType"
+        app:vc_valueType="pathType"/>
+</set>

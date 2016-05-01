@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80.0"
+    android:viewportHeight="80.0"
+    app:vc_viewportWidth="80.0"
+    app:vc_viewportHeight="80.0">
+    <path
+        android:name="rect"
+        android:pathData="@string/record_rect_path_start"
+        android:fillColor="#ffffff"
+        app:vc_pathData="@string/record_rect_path_start"
+        app:vc_fillColor="#ffffff"/>
+    <path
+        android:name="circle"
+        android:pathData="@string/record_circle_path_start"
+        android:fillColor="#cd4747"
+        app:vc_pathData="@string/record_circle_path_start"
+        app:vc_fillColor="#cd4747"/>
+</vector>

@@ -2,9 +2,11 @@ package com.plorial.telegramcamera;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,12 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 import android.widget.ViewSwitcher;
 
+import com.wnafee.vector.compat.AnimatedVectorDrawable;
+
 /**
  * Created by plorial on 4/28/16.
  */
 public class SwitcherOnTouchListener implements View.OnTouchListener {
 
     private static final int ANIM_SPEED = 500;
+    private final AppCompatImageButton recordButton;
     private float fromPosition = 0;
     private View view;
 
@@ -43,6 +48,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         circle1.setImageResource(R.drawable.circle_white);
         circle2.setImageResource(R.drawable.circle_black);
         switcher = (ViewSwitcher) view.findViewById(R.id.switcher);
+        recordButton = (AppCompatImageButton) view.findViewById(R.id.recordButton);
 
         colorPicture = view.getContext().getResources().getColor(R.color.colorPicture);
         colorVideo = view.getContext().getResources().getColor(R.color.colorVideo);
@@ -69,12 +75,20 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                     circle1.setImageResource(R.drawable.circle_black);
                     circle2.setImageResource(R.drawable.circle_white);
 
+
+                    AnimatedVectorDrawable extending = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_extending_vector);
+                    recordButton.setImageDrawable(extending);
+                    extending.start();
                    relativeLayoutBackgroundAnim(colorPicture, colorVideo);
                 }
                 else if (fromPosition > toPosition && switcher.getCurrentView() ==switcher.getChildAt(1)) {
                     switcher.showPrevious();
                     circle1.setImageResource(R.drawable.circle_white);
                     circle2.setImageResource(R.drawable.circle_black);
+
+                    AnimatedVectorDrawable extending = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_constriction_vector);
+                    recordButton.setImageDrawable(extending);
+                    extending.start();
 
                     relativeLayoutBackgroundAnim(colorVideo, colorPicture);
                 }

@@ -5,5 +5,9 @@
     <string name="fill_circle">M5 20A15 15 0 1 0 35 20A15 15 0 1 0 5 20M10 20A0 0 10 1 1 30 20A0 0 0 1 1 10 20</string>
     <string name="shot_button_pressed">M40,40m-25,0a25,25 0,1 1,50 0a25,25 0,1 1,-50 0</string>
     <string name="shot_button_realised">M40,40m-35,0a35,35 0,1 1,70 0a35,35 0,1 1,-70 0</string>
+    <string name="record_rect_path_extended">M44,0L64,0A44,40 0,0 1,108 40L108,40A44,40 0,0 1,64 80L44,80A44,40 0,0 1,0 40L0,40A44,40 0,0 1,44 0z</string>
+    <string name="record_circle_path_extended">M54,40m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0</string>
+    <string name="record_rect_path_start">M40,0L40,0A40,40 0,0 1,80 40L80,40A40,40 0,0 1,40 80L40,80A40,40 0,0 1,0 40L0,40A40,40 0,0 1,40 0z</string>
+    <string name="record_circle_path_start">M40,40m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0</string>
 
 </resources>
