@@ -1,5 +1,5 @@
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/record_button_extended" >
+    android:drawable="@drawable/recording_button" >
     <target
         android:name="rect"
         android:animation="@anim/recording_button_starting_rect" />
