@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ViewFlipper;
 
 import com.wnafee.vector.compat.AnimatedVectorDrawable;
 
@@ -31,6 +32,8 @@ public class CameraPreviewFragment extends Fragment{
     private int currentCameraId;
     private FrameLayout frameLayout;
     private boolean isSwitchCircleFilled = false;
+    private ViewFlipper flashFlipper;
+    Camera.Parameters cameraParams;
 
     @Nullable
     @Override
@@ -38,6 +41,7 @@ public class CameraPreviewFragment extends Fragment{
         final View view = inflater.inflate(R.layout.camera_preview_fragment, container, false);
         currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
         camera = getCameraInstance(currentCameraId);
+        cameraParams = camera.getParameters();
 
         preview = new CameraPreview(getActivity(), camera);
 
@@ -50,6 +54,17 @@ public class CameraPreviewFragment extends Fragment{
         AppCompatImageButton shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
         shotButton.setOnTouchListener(new ShotButtonOnTouchListener());
         final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
+
+        flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
+        cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+        flashFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.flash_in));
+        flashFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.flash_out));
+        flashFlipper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFlash();
+            }
+        });
 
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +87,21 @@ public class CameraPreviewFragment extends Fragment{
         });
 
         return view;
+    }
+
+    private void changeFlash() {
+        switch (cameraParams.getFlashMode()){
+            case Camera.Parameters.FLASH_MODE_AUTO:
+                cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                break;
+            case Camera.Parameters.FLASH_MODE_TORCH:
+                cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                break;
+            case Camera.Parameters.FLASH_MODE_OFF:
+                cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+                break;
+        }
+        flashFlipper.showNext();
     }
 
     private void switchCamera(){

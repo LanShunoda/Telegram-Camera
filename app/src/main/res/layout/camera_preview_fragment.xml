@@ -98,4 +98,32 @@
             </ViewSwitcher>
         </RelativeLayout>
     </LinearLayout>
+
+    <ViewFlipper
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/flashFlipper"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivFlashAuto"
+            android:src="@drawable/flash_auto"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivFlashOn"
+            android:src="@drawable/flash_on"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivFlashOff"
+            android:src="@drawable/flash_off"/>
+    </ViewFlipper>
 </RelativeLayout>
