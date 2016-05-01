@@ -47,7 +47,8 @@ public class CameraPreviewFragment extends Fragment{
         frameLayout.setOnTouchListener(new SwitcherOnTouchListener(view));
         final Animation animationRotate = AnimationUtils.loadAnimation(
                 getActivity(), R.anim.rotate);
-
+        AppCompatImageButton shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
+        shotButton.setOnTouchListener(new ShotButtonOnTouchListener());
         final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
 
         switchButton.setOnClickListener(new View.OnClickListener() {

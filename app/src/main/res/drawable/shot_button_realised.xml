@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80.0"
+    android:viewportHeight="80.0"
+    app:vc_viewportWidth="80.0"
+    app:vc_viewportHeight="80.0">
+    <path
+        android:pathData="M40,40m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0"
+        android:fillColor="#ffffff"
+        app:vc_pathData="M40,40m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0"
+        app:vc_fillColor="#ffffff"
+        />
+    <path
+        android:name="shot_button"
+        android:pathData="@string/shot_button_realised"
+        android:fillColor="#3d96e3"
+        app:vc_pathData="@string/shot_button_realised"
+        app:vc_fillColor="#3d96e3"
+        />
+    <path
+        android:pathData="M40,40m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0"
+        android:fillColor="#50a8f5"
+        app:vc_pathData="MM40,40m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0"
+        app:vc_fillColor="#50a8f5"
+        />
+</vector>

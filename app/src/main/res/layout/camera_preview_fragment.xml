@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/shotButton"
                     android:background="#00ffffff"
-                    app:srcCompat="@drawable/shot_picture_button"
+                    app:srcCompat="@drawable/shot_button_realised"
                      />
                 <android.support.v7.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
