@@ -9,5 +9,7 @@
     <string name="record_circle_path_extended">M54,40m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0</string>
     <string name="record_rect_path_start">M54,0L54,0A40,40 0,0 1,94 40L94,40A40,40 0,0 1,54 80L54,80A40,40 0,0 1,14 40L14,40A40,40 0,0 1,54 0z</string>
     <string name="record_circle_path_start">M54,40m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0</string>
+    <string name="recording_button_circle">M54,40m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0</string>
+    <string name="recording_button_rect">M42,23L66,23A5,5 0,0 1,71 28L71,52A5,5 0,0 1,66 57L42,57A5,5 0,0 1,37 52L37,28A5,5 0,0 1,42 23z</string>
 
 </resources>

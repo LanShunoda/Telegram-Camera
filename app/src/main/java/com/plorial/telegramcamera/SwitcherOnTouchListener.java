@@ -39,6 +39,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
 
     private int colorPicture;
     private int colorVideo;
+    private boolean isRecording = false;
 
     public SwitcherOnTouchListener(View view) {
         this.view = view;
@@ -50,6 +51,13 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         switcher = (ViewSwitcher) view.findViewById(R.id.switcher);
         recordButton = (AppCompatImageButton) view.findViewById(R.id.recordButton);
 
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startRecording();
+            }
+        });
+
         colorPicture = view.getContext().getResources().getColor(R.color.colorPicture);
         colorVideo = view.getContext().getResources().getColor(R.color.colorVideo);
 
@@ -60,6 +68,20 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
 
         switcher.setInAnimation(inAnim);
         switcher.setOutAnimation(outAnim);
+    }
+
+    private void startRecording() {
+        AnimatedVectorDrawable starting = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.recording_button_starting_vector);
+        AnimatedVectorDrawable stoping = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.recording_button_stoping_vector);
+        if(isRecording) {
+            recordButton.setImageDrawable(stoping);
+            stoping.start();
+            isRecording = false;
+        }else {
+            recordButton.setImageDrawable(starting);
+            starting.start();
+            isRecording = true;
+        }
     }
 
     @Override
@@ -75,7 +97,6 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                     circle1.setImageResource(R.drawable.circle_black);
                     circle2.setImageResource(R.drawable.circle_white);
 
-
                     AnimatedVectorDrawable extending = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_extending_vector);
                     recordButton.setImageDrawable(extending);
                     extending.start();
@@ -86,9 +107,9 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                     circle1.setImageResource(R.drawable.circle_white);
                     circle2.setImageResource(R.drawable.circle_black);
 
-                    AnimatedVectorDrawable extending = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_constriction_vector);
-                    recordButton.setImageDrawable(extending);
-                    extending.start();
+                    AnimatedVectorDrawable constriction = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_constriction_vector);
+                    recordButton.setImageDrawable(constriction);
+                    constriction.start();
 
                     relativeLayoutBackgroundAnim(colorVideo, colorPicture);
                 }

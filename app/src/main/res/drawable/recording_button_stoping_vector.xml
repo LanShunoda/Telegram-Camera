@@ -1,0 +1,9 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/recording_button" >
+    <target
+        android:name="circle"
+        android:animation="@anim/recording_button_stoping_circle" />
+    <target
+        android:name="rect"
+        android:animation="@anim/recording_button_stoping_rect" />
+</animated-vector>
