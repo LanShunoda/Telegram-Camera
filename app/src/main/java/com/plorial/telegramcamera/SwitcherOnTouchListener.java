@@ -10,6 +10,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 import android.widget.ViewSwitcher;
 
@@ -33,6 +34,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private AppCompatImageButton switchButton;
     private AppCompatImageButton switchButtonCircle;
     private ViewFlipper flashFlipper;
+    private TextView tvVideoTiming;
 
     private int colorPicture;
     private int colorVideo;
@@ -54,7 +56,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
         switchButtonCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
         flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
-
+        tvVideoTiming = (TextView) view.findViewById(R.id.tvVideoTiming);
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +88,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             stoping.start();
             bottomPanelBackground.setVisibility(View.VISIBLE);
             bottomPanelBackground.startAnimation(bottomPanelSlidingUp);
+            tvVideoTiming.setVisibility(View.INVISIBLE);
             makeViewsAppear();
             isRecording = false;
         }else {
@@ -93,6 +96,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             starting.start();
             bottomPanelBackground.startAnimation(bottomPanelSlidingDown);
             bottomPanelBackground.setVisibility(View.INVISIBLE);
+            tvVideoTiming.setVisibility(View.VISIBLE);
             makeViewsDisappear();
             isRecording = true;
         }

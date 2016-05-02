@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.wnafee.vector.compat.AnimatedVectorDrawable;
@@ -54,6 +55,8 @@ public class CameraPreviewFragment extends Fragment{
         AppCompatImageButton shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
         shotButton.setOnTouchListener(new ShotButtonOnTouchListener());
         final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
+        TextView tvVideoTiming = (TextView) view.findViewById(R.id.tvVideoTiming);
+        tvVideoTiming.setVisibility(View.INVISIBLE);
 
         flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
         cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
