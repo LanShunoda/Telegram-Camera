@@ -69,20 +69,22 @@ public class CameraPreviewFragment extends Fragment{
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchButton.startAnimation(animationRotate);
-                AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
-                if(!isSwitchCircleFilled) {
-                    AnimatedVectorDrawable drawableFilling = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_filling_vector);
-                    switchCircle.setImageDrawable(drawableFilling);
-                    drawableFilling.start();
-                    isSwitchCircleFilled = true;
-                }else{
-                    AnimatedVectorDrawable drawableHollowing = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_hollowing_vector);
-                    switchCircle.setImageDrawable(drawableHollowing);
-                    drawableHollowing.start();
-                    isSwitchCircleFilled = false;
+                if(!SwitcherOnTouchListener.isRecording) {
+                    switchButton.startAnimation(animationRotate);
+                    AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
+                    if (!isSwitchCircleFilled) {
+                        AnimatedVectorDrawable drawableFilling = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_filling_vector);
+                        switchCircle.setImageDrawable(drawableFilling);
+                        drawableFilling.start();
+                        isSwitchCircleFilled = true;
+                    } else {
+                        AnimatedVectorDrawable drawableHollowing = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_hollowing_vector);
+                        switchCircle.setImageDrawable(drawableHollowing);
+                        drawableHollowing.start();
+                        isSwitchCircleFilled = false;
+                    }
+                    switchCamera();
                 }
-                switchCamera();
             }
         });
 
