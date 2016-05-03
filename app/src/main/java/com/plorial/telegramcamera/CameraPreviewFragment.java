@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageButton;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,12 +49,11 @@ public class CameraPreviewFragment extends Fragment{
 
         frameLayout = (FrameLayout) view.findViewById(R.id.camera_preview);
         frameLayout.addView(preview);
-
         frameLayout.setOnTouchListener(new SwitcherOnTouchListener(view));
         final Animation animationRotate = AnimationUtils.loadAnimation(
                 getActivity(), R.anim.rotate);
         AppCompatImageButton shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
-        shotButton.setOnTouchListener(new ShotButtonOnTouchListener(camera));
+        shotButton.setOnTouchListener(new ShotButtonOnTouchListener(view, camera));
         final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
         TextView tvVideoTiming = (TextView) view.findViewById(R.id.tvVideoTiming);
         tvVideoTiming.setVisibility(View.INVISIBLE);

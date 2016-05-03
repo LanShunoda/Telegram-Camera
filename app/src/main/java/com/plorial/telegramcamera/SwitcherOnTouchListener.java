@@ -21,7 +21,7 @@ import com.wnafee.vector.compat.AnimatedVectorDrawable;
  */
 public class SwitcherOnTouchListener implements View.OnTouchListener {
 
-    private static final int ANIM_SPEED = 500;
+    public static final int ANIM_SPEED = 500;
     private final AppCompatImageButton recordButton;
     private float fromPosition = 0;
     private View view;

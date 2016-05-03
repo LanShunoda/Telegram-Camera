@@ -18,95 +18,20 @@
         android:minHeight="100dp"
         android:background="#25272a"
         android:id="@+id/bottomPanelBackground"
-        android:layout_alignBottom="@+id/linearLayout" />
+        android:layout_alignParentBottom="true" />
 
-    <LinearLayout android:layout_height="wrap_content"
+    <ViewSwitcher
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="bottom"
-        android:background="#00000000"
-        android:layout_alignBottom="@+id/camera_preview"
-        android:id="@+id/linearLayout">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_above="@+id/viewflipper"
-            android:layout_marginBottom="5dp">
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_panel_switcher">
+        <include
+            layout="@layout/bottom_panel"
+            android:id="@+id/bottom_panel"></include>
+        <include
+            layout="@layout/save_photo_panel"
+            android:id="@+id/save_photo_panel"></include>
+    </ViewSwitcher>
 
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageCircle1"
-                app:srcCompat="@drawable/circle_black"
-                android:layout_marginRight="2dp" />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageCircle2"
-                app:srcCompat="@drawable/circle_black"
-                android:layout_marginLeft="2dp" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/relativeLayout"
-            >
-            <android.support.v7.widget.AppCompatImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/switchButtonCircle"
-                android:background="#0025272a"
-                app:srcCompat="@drawable/switch_circle"
-                android:layout_gravity="center_vertical"
-                android:layout_centerVertical="true"
-                android:layout_alignRight="@+id/switchButton"
-                android:layout_alignEnd="@+id/switchButton"
-                android:layout_marginRight="12dp"
-                android:layout_marginEnd="12dp" />
-            <android.support.v7.widget.AppCompatImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/switchButton"
-                android:background="#0025272a"
-                app:srcCompat="@drawable/switch_"
-                android:layout_gravity="center_vertical"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="43dp"
-                android:layout_marginStart="43dp" />
-            <ViewSwitcher
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/switcher">
-                <android.support.v7.widget.AppCompatImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/shotButton"
-                    android:background="#00ffffff"
-                    app:srcCompat="@drawable/shot_button_realised"
-                     />
-                <android.support.v7.widget.AppCompatImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/recordButton"
-                    android:background="#00000000"
-                    app:srcCompat="@drawable/record_button_start"
-                     />
-            </ViewSwitcher>
-        </RelativeLayout>
-    </LinearLayout>
 
     <ViewFlipper
         android:layout_width="wrap_content"

@@ -5,6 +5,10 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.ImageButton;
+import android.widget.ViewSwitcher;
 
 import com.wnafee.vector.compat.AnimatedVectorDrawable;
 
@@ -15,9 +19,11 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener {
 
     public static final String TAG = ShotButtonOnTouchListener.class.getSimpleName();
     private Camera camera;
+    private View view;
 
-    public ShotButtonOnTouchListener(Camera camera) {
+    public ShotButtonOnTouchListener(View view, Camera camera) {
         this.camera = camera;
+        this.view = view;
     }
 
     @Override
@@ -32,10 +38,23 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener {
                 AnimatedVectorDrawable realised = AnimatedVectorDrawable.getDrawable(v.getContext(), R.drawable.shot_button_realising_vector);
                 ((AppCompatImageButton)v).setImageDrawable(realised);
                 realised.start();
-               takePicture();
+                takePicture();
+                changePanels();
 
         }
         return true;
+    }
+
+    private void changePanels(){
+        ViewSwitcher switcher = (ViewSwitcher) view.findViewById(R.id.bottom_panel_switcher);
+        Animation inAnim = new AlphaAnimation(0, 1);
+        inAnim.setDuration(SwitcherOnTouchListener.ANIM_SPEED/2);
+
+        Animation outAnim = new AlphaAnimation(1, 0);
+        outAnim.setDuration(SwitcherOnTouchListener.ANIM_SPEED/2);
+        switcher.setInAnimation(inAnim);
+        switcher.setOutAnimation(outAnim);
+        switcher.showNext();
     }
 
     private void takePicture(){
@@ -46,5 +65,4 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener {
             }
         }).start();
     }
-
 }
