@@ -35,31 +35,27 @@ public class CameraPreviewFragment extends Fragment{
     private FrameLayout frameLayout;
     private boolean isSwitchCircleFilled = false;
     private ViewFlipper flashFlipper;
-    Camera.Parameters cameraParams;
+    private AppCompatImageButton shotButton;
+    private Camera.Parameters cameraParams;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.camera_preview_fragment, container, false);
+        view = inflater.inflate(R.layout.camera_preview_fragment, container, false);
         currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
-        camera = getCameraInstance(currentCameraId);
-        cameraParams = camera.getParameters();
-
-        preview = new CameraPreview(getActivity(), camera);
-
+        preview = new CameraPreview(getActivity());
         frameLayout = (FrameLayout) view.findViewById(R.id.camera_preview);
         frameLayout.addView(preview);
         frameLayout.setOnTouchListener(new SwitcherOnTouchListener(view));
-        final Animation animationRotate = AnimationUtils.loadAnimation(
-                getActivity(), R.anim.rotate);
-        AppCompatImageButton shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
-        shotButton.setOnTouchListener(new ShotButtonOnTouchListener(view, camera));
+        final Animation animationRotate = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
+        shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
         final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
         TextView tvVideoTiming = (TextView) view.findViewById(R.id.tvVideoTiming);
         tvVideoTiming.setVisibility(View.INVISIBLE);
 
         flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
-        cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+
         flashFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.flash_in));
         flashFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.flash_out));
         flashFlipper.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +88,17 @@ public class CameraPreviewFragment extends Fragment{
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        camera = getCameraInstance(currentCameraId);
+        preview.setCamera(camera);
+        cameraParams = camera.getParameters();
+        cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+        ShotButtonOnTouchListener shotButtonOnTouchListener = new ShotButtonOnTouchListener(view, camera);
+        shotButton.setOnTouchListener(shotButtonOnTouchListener);
     }
 
     private void changeFlash() {
@@ -156,9 +163,14 @@ public class CameraPreviewFragment extends Fragment{
     public void onPause() {
         super.onPause();
         if (camera != null) {
+            Log.d(TAG, "camera release");
             camera.stopPreview();
             camera.release();
             camera = null;
         }
+    }
+
+    public int getCurrentCameraId() {
+        return currentCameraId;
     }
 }

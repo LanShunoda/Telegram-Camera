@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -24,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by plorial on 5/1/16.
@@ -53,9 +55,9 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
                 AnimatedVectorDrawable realised = AnimatedVectorDrawable.getDrawable(v.getContext(), R.drawable.shot_button_realising_vector);
                 ((AppCompatImageButton)v).setImageDrawable(realised);
                 realised.start();
-                takePicture();
                 changePanels();
-
+                takePicture();
+                break;
         }
         return true;
     }
@@ -116,12 +118,7 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     }
 
     private void takePicture(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                camera.takePicture(null, null, getPictureCallback());
-            }
-        }).start();
+        camera.takePicture(null, null, getPictureCallback());
     }
 
     private Camera.PictureCallback getPictureCallback(){

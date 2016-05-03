@@ -24,9 +24,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Camera camera;
     private Context context;
 
-    public CameraPreview(Context context, Camera camera) {
+    public CameraPreview(Context context) {
         super(context);
-        this.camera = camera;
         this.context = context;
 
         holder = getHolder();
@@ -121,5 +120,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             result = (info.orientation - degrees + 360) % 360;
         }
         camera.setDisplayOrientation(result);
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 }
