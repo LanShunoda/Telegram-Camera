@@ -38,8 +38,7 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     private  ViewSwitcher switcher;
     private byte[] data;
 
-    public ShotButtonOnTouchListener(View view, Camera camera) {
-        this.camera = camera;
+    public ShotButtonOnTouchListener(View view) {
         this.view = view;
     }
 
@@ -118,7 +117,12 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     }
 
     private void takePicture(){
-        camera.takePicture(null, null, getPictureCallback());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                camera.takePicture(null, null, getPictureCallback());
+            }
+        }).start();
     }
 
     private Camera.PictureCallback getPictureCallback(){
@@ -146,5 +150,9 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 }
