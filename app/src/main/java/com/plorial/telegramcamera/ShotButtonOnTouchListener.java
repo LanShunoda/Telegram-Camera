@@ -1,5 +1,6 @@
 package com.plorial.telegramcamera;
 
+import android.hardware.Camera;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -13,6 +14,12 @@ import com.wnafee.vector.compat.AnimatedVectorDrawable;
 public class ShotButtonOnTouchListener implements View.OnTouchListener {
 
     public static final String TAG = ShotButtonOnTouchListener.class.getSimpleName();
+    private Camera camera;
+
+    public ShotButtonOnTouchListener(Camera camera) {
+        this.camera = camera;
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
@@ -25,8 +32,19 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener {
                 AnimatedVectorDrawable realised = AnimatedVectorDrawable.getDrawable(v.getContext(), R.drawable.shot_button_realising_vector);
                 ((AppCompatImageButton)v).setImageDrawable(realised);
                 realised.start();
+               takePicture();
 
         }
         return true;
     }
+
+    private void takePicture(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                camera.takePicture(null, null, new PictureCallback());
+            }
+        }).start();
+    }
+
 }

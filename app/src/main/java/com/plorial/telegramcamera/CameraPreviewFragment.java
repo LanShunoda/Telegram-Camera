@@ -53,7 +53,7 @@ public class CameraPreviewFragment extends Fragment{
         final Animation animationRotate = AnimationUtils.loadAnimation(
                 getActivity(), R.anim.rotate);
         AppCompatImageButton shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
-        shotButton.setOnTouchListener(new ShotButtonOnTouchListener());
+        shotButton.setOnTouchListener(new ShotButtonOnTouchListener(camera));
         final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
         TextView tvVideoTiming = (TextView) view.findViewById(R.id.tvVideoTiming);
         tvVideoTiming.setVisibility(View.INVISIBLE);
