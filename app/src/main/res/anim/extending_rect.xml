@@ -2,7 +2,8 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <objectAnimator
-        android:duration="500"
+        android:duration="250"
+        android:startOffset="250"
         android:propertyName="pathData"
         android:valueFrom="@string/record_rect_path_start"
         android:valueTo="@string/record_rect_path_extended"

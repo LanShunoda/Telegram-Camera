@@ -46,6 +46,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
 
     public SwitcherOnTouchListener(View view) {
         this.view = view;
+        isRecording = false;
         circle1 = (AppCompatImageView) view.findViewById(R.id.imageCircle1);
         circle2 = (AppCompatImageView) view.findViewById(R.id.imageCircle2);
         bottomPanelBackground = (ImageView) view.findViewById(R.id.bottomPanelBackground);

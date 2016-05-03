@@ -1,5 +1,7 @@
 package com.plorial.telegramcamera;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.hardware.Camera;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
@@ -7,6 +9,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ViewSwitcher;
 
@@ -47,6 +53,10 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener {
 
     private void changePanels(){
         ViewSwitcher switcher = (ViewSwitcher) view.findViewById(R.id.bottom_panel_switcher);
+        Button bCancel = (Button) view.findViewById(R.id.buttonCancel);
+        Button bDone = (Button) view.findViewById(R.id.buttonDone);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.1f,1f,0.1f,1f,Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF,0.5f);
+        scaleAnimation.setDuration(SwitcherOnTouchListener.ANIM_SPEED/2);
         Animation inAnim = new AlphaAnimation(0, 1);
         inAnim.setDuration(SwitcherOnTouchListener.ANIM_SPEED/2);
 
@@ -55,6 +65,11 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener {
         switcher.setInAnimation(inAnim);
         switcher.setOutAnimation(outAnim);
         switcher.showNext();
+        view.findViewById(R.id.flashFlipper).setVisibility(View.INVISIBLE);
+        SwitcherOnTouchListener.isRecording = true;
+
+        bCancel.startAnimation(scaleAnimation);
+        bDone.startAnimation(scaleAnimation);
     }
 
     private void takePicture(){
