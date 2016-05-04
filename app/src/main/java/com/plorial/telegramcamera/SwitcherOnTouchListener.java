@@ -60,7 +60,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private Animation outAnim;
     private MediaRecorder recorder;
     private Camera camera;
-
+    private File currentVideoFile;
 
     private Timer timer;
     private final Handler uiHandler = new Handler();
@@ -113,13 +113,19 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             bottomPanelBackground.startAnimation(bottomPanelSlidingUp);
             tvVideoTiming.setVisibility(View.INVISIBLE);
             makeViewsAppear();
-            isRecording = false;
             if (recorder != null) {
                 Log.d(TAG, "stop recording");
-                recorder.stop();
-                releaseMediaRecorder();
+                try {
+                    recorder.stop();
+                }catch (RuntimeException e){
+                    e.printStackTrace();       // video stoped too fast, android doesn't properly create file
+                    currentVideoFile.delete(); // http://stackoverflow.com/questions/10147563/android-mediarecorder-stop-failed
+                } finally {
+                    releaseMediaRecorder();
+                    timer.cancel();
+                    isRecording = false;
+                }
             }
-            timer.cancel();
         }else {
             recordButton.setImageDrawable(starting);
             starting.start();
@@ -147,7 +153,8 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         recorder.setProfile(CamcorderProfile.get(CameraPreviewFragment.currentCameraId, CamcorderProfile.QUALITY_HIGH));
-        recorder.setOutputFile(getVideoFile().getAbsolutePath());
+        currentVideoFile = getVideoFile();
+        recorder.setOutputFile(currentVideoFile.getAbsolutePath());
         recorder.setPreviewDisplay(preview.getHolder().getSurface());
 
         try {

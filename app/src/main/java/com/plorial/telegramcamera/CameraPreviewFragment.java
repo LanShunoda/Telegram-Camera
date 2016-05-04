@@ -133,7 +133,6 @@ public class CameraPreviewFragment extends Fragment{
         shotRecordSwitcher.setCamera(camera);
         CameraPreview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
         try {
-
             camera.setPreviewDisplay(preview.getHolder());
         } catch (IOException e) {
             e.printStackTrace();
