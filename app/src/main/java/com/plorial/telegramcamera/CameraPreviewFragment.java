@@ -31,12 +31,13 @@ public class CameraPreviewFragment extends Fragment{
 
     private Camera camera;
     private CameraPreview preview;
-    private int currentCameraId;
+    public static int currentCameraId;
     private FrameLayout frameLayout;
     private boolean isSwitchCircleFilled = false;
     private ViewFlipper flashFlipper;
     private Camera.Parameters cameraParams;
     private ShotButtonOnTouchListener shotButtonOnTouchListener;
+    private  SwitcherOnTouchListener shotRecordSwitcher;
 
     @Nullable
     @Override
@@ -46,7 +47,8 @@ public class CameraPreviewFragment extends Fragment{
         preview = new CameraPreview(getActivity());
         frameLayout = (FrameLayout) view.findViewById(R.id.camera_preview);
         frameLayout.addView(preview);
-        frameLayout.setOnTouchListener(new SwitcherOnTouchListener(view));
+        shotRecordSwitcher = new SwitcherOnTouchListener(view, preview);
+        frameLayout.setOnTouchListener(shotRecordSwitcher);
         final Animation animationRotate = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
         AppCompatImageButton shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
         final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
@@ -99,6 +101,7 @@ public class CameraPreviewFragment extends Fragment{
         cameraParams = camera.getParameters();
         cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
         shotButtonOnTouchListener.setCamera(camera);
+        shotRecordSwitcher.setCamera(camera);
     }
 
     private void changeFlash() {
@@ -127,6 +130,7 @@ public class CameraPreviewFragment extends Fragment{
         }
         camera = Camera.open(currentCameraId);
         shotButtonOnTouchListener.setCamera(camera);
+        shotRecordSwitcher.setCamera(camera);
         CameraPreview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
         try {
 
@@ -168,5 +172,6 @@ public class CameraPreviewFragment extends Fragment{
             camera.release();
             camera = null;
         }
+        shotRecordSwitcher.releaseMediaRecorder();
     }
 }

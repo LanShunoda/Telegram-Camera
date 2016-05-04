@@ -117,12 +117,7 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     }
 
     private void takePicture(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                camera.takePicture(null, null, getPictureCallback());
-            }
-        }).start();
+        camera.takePicture(null, null, getPictureCallback());
     }
 
     private Camera.PictureCallback getPictureCallback(){
