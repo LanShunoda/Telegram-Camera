@@ -2,7 +2,10 @@ package com.plorial.telegramcamera;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.hardware.Camera;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
@@ -37,6 +40,8 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     private View view;
     private  ViewSwitcher switcher;
     private byte[] data;
+    private  ImageButton bCrop;
+    private String photoFilePath;
 
     public ShotButtonOnTouchListener(View view) {
         this.view = view;
@@ -78,9 +83,16 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
         switcher.showNext();
         view.findViewById(R.id.flashFlipper).setVisibility(View.INVISIBLE);
 
-
+        bCrop = (ImageButton) view.findViewById(R.id.crop);
         bCancel.startAnimation(scaleAnimation);
         bDone.startAnimation(scaleAnimation);
+
+        bCrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCropFragment();
+            }
+        });
 
         bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,16 +104,35 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
         bDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new Runnable() {
+                final File photoFile = createFile();
+                        new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        writePhoto(data);
+                        writePhoto(data,photoFile);
                     }
                 }).start();
                 beginAgainCameraPreview();
             }
 
         });
+    }
+
+    private void startCropFragment() {
+        final File photoFile = createFile();
+        photoFilePath = photoFile.getAbsolutePath();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                writePhoto(data,photoFile);
+            }
+        }).start();
+        CropFragment fragment = new CropFragment();
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence(MainActivity.PHOTO_FILE_PATH, photoFilePath);
+        fragment.setArguments(bundle);
+        FragmentTransaction transaction = ((Activity)view.getContext()).getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
     }
 
     private void beginAgainCameraPreview(){
@@ -124,14 +155,10 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
         return this;
     }
 
-    private static void writePhoto(byte[] data){
-        File pictureFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        Date date = new Date();
-        File photo = new File(pictureFile,"IMG " + date +".jpg");
-
+    private static void writePhoto(byte[] data, File file){
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(photo);
+            fos = new FileOutputStream(file);
             fos.write(data);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -145,6 +172,13 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
                 e.printStackTrace();
             }
         }
+    }
+
+    private File createFile(){
+        File pictureFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        Date date = new Date();
+        File photo = new File(pictureFile,"IMG " + date +".jpg");
+        return photo;
     }
 
     public void setCamera(Camera camera) {

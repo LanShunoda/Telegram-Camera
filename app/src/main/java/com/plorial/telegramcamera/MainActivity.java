@@ -10,6 +10,7 @@ import android.view.WindowManager;
 public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String PHOTO_FILE_PATH = "PHOTO_FILE_PATH";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
