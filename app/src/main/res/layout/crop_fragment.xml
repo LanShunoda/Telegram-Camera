@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <com.theartofdev.edmodo.cropper.CropImageView
         android:id="@+id/cropImageView"
@@ -9,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,31 +18,51 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton" />
-    </LinearLayout>
+            android:id="@+id/bRotate"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/rotate"
+            android:background="#00ffffff"
+            android:layout_margin="10dp" />
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#25272a"
+        android:padding="5dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button" />
+            android:text="CANCEL"
+            android:id="@+id/bCancel"
+            android:background="#00ffffff"
+            android:textColor="#ffffffff"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2" />
+            android:text="RESET"
+            android:id="@+id/bReset"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/bCancel"
+            android:layout_toEndOf="@+id/bCancel"
+            android:background="#00ffffff"
+            android:textColor="#ffffffff"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button3" />
-    </LinearLayout>
+            android:text="DONE"
+            android:id="@+id/bDone"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="#00ffffff"
+            android:textColor="#54acf0"/>
+    </RelativeLayout>
 
 </LinearLayout>
