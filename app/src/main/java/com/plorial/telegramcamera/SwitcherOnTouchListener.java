@@ -6,6 +6,7 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.wnafee.vector.compat.AnimatedVectorDrawable;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by plorial on 4/28/16.
@@ -57,6 +60,10 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private Animation outAnim;
     private MediaRecorder recorder;
     private Camera camera;
+
+
+    private Timer timer;
+    private final Handler uiHandler = new Handler();
 
     public SwitcherOnTouchListener(View view,CameraPreview preview) {
         this.view = view;
@@ -112,6 +119,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                 recorder.stop();
                 releaseMediaRecorder();
             }
+            timer.cancel();
         }else {
             recordButton.setImageDrawable(starting);
             starting.start();
@@ -126,6 +134,8 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             } else {
                 releaseMediaRecorder();
             }
+            timer = new Timer();
+            timer.schedule(new UpdateTimeTask(uiHandler,tvVideoTiming), 0, 1000);
         }
     }
 
