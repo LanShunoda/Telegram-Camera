@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,11 +18,16 @@ import java.util.ArrayList;
  */
 public class DegreesView extends View implements View.OnTouchListener {
 
+    private static final String TAG = DegreesView.class.getSimpleName();
+
     private Paint paint;
+    private Paint paintBlue;
     private float centerX; // центр вьюхи, ил центр полукруга
     private float radius; // радиус полукруга, или амплитуда для гармонического закона
     private float startY;
     private float stopY;
+    private float pivotPoint;
+
     private static final float OMEGA = 0.07f; //  ω - частота колебаний, 0,07 - потому что я агент 007, а если чесно то величина подобранная империческим путем
     private static final float DEGREES_DELTA = (float) (Math.PI/9); // одной полоске соответствует 10 градусов (90/9)
     private static final float ROTATE_SPEED = 0.02f;
@@ -32,6 +38,9 @@ public class DegreesView extends View implements View.OnTouchListener {
     public DegreesView(Context context) {
         super(context);
         paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paintBlue = new Paint();
+        paintBlue.setColor(Color.BLUE);
         Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         Drawable d = context.getResources().getDrawable(R.drawable.rotate);
 
@@ -46,6 +55,7 @@ public class DegreesView extends View implements View.OnTouchListener {
 
     private void createPoints() {
         points = new ArrayList<>();
+        pivotPoint = 0.01f;
         for(float i = (float) -Math.PI; i < Math.PI ; i = i + DEGREES_DELTA) {   // проходимся по половине круга от -90 до 90 градусов
             points.add(i);
         }
@@ -54,12 +64,12 @@ public class DegreesView extends View implements View.OnTouchListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setColor(Color.WHITE);
-        canvas.drawLine(centerX, 0.0f, centerX, stopY * 1.5f , paint); //center line
+        canvas.drawLine(centerX, 0.0f, centerX, stopY * 1.5f , paintBlue); //center line
         for (float degree: points) {
-            degree = (float) (radius * Math.sin(2 * Math.PI * OMEGA * degree)); // изменяем растояние между линиями по гармоническому закону
+            degree = getGarmonicDegree(degree);
             canvas.drawLine(centerX + degree, startY, centerX + degree, stopY, paint);
         }
+        canvas.drawLine(centerX + getGarmonicDegree(pivotPoint), 0.1f, centerX + getGarmonicDegree(pivotPoint), stopY * 1.25f, paintBlue);
     }
 
     //Создаем еффект кручения колеса, как в старом советском радио
@@ -73,17 +83,26 @@ public class DegreesView extends View implements View.OnTouchListener {
             case MotionEvent.ACTION_MOVE:
                 float toPosition = event.getX();
                 for (int i = 0; i < points.size(); i++) {
-                   if(fromPosition - toPosition > 0){
-                       float p = points.get(i) - ROTATE_SPEED;
-                       points.set(i, p < -Math.PI ? (float)(Math.PI) : p);
-                   }else {
-                       float p = points.get(i) + ROTATE_SPEED;
-                       points.set(i, p > Math.PI ? (float)(-Math.PI) : p);
-                   }
+                   points.set(i, getPointChanged(fromPosition, toPosition, points.get(i)));
                 }
+                pivotPoint = getPointChanged(fromPosition, toPosition, pivotPoint);
                 this.invalidate();
                 break;
         }
         return true;
+    }
+
+    private float getPointChanged(float fromPosition, float toPosition, float point){
+        if(fromPosition - toPosition > 0){
+            float p = point - ROTATE_SPEED;
+            return p < -Math.PI ? (float)(Math.PI) : p;
+        }else {
+            float p = point + ROTATE_SPEED;
+            return p > Math.PI ? (float)(-Math.PI) : p;
+        }
+    }
+
+    private float getGarmonicDegree(float point){
+        return (float) (radius * Math.sin(2 * Math.PI * OMEGA * point)); // изменяем растояние между линиями по гармоническому закону
     }
 }
