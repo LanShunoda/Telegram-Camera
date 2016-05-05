@@ -38,7 +38,7 @@ public class DegreesView extends View implements View.OnTouchListener {
         centerX = display.getWidth()/2;
         radius = centerX - d.getMinimumWidth()*2;
 
-        startY = 0.0f;
+        startY = 0.2f;
         stopY = d.getMinimumHeight()/2;
         createPoints();
         this.setOnTouchListener(this);
@@ -55,7 +55,7 @@ public class DegreesView extends View implements View.OnTouchListener {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         paint.setColor(Color.WHITE);
-        canvas.drawLine(centerX, startY, centerX, stopY * 1.5f , paint); //center line
+        canvas.drawLine(centerX, 0.0f, centerX, stopY * 1.5f , paint); //center line
         for (float degree: points) {
             degree = (float) (radius * Math.sin(2 * Math.PI * OMEGA * degree)); // изменяем растояние между линиями по гармоническому закону
             canvas.drawLine(centerX + degree, startY, centerX + degree, stopY, paint);
@@ -73,7 +73,7 @@ public class DegreesView extends View implements View.OnTouchListener {
             case MotionEvent.ACTION_MOVE:
                 float toPosition = event.getX();
                 for (int i = 0; i < points.size(); i++) {
-                   if(fromPosition - toPosition < 0){
+                   if(fromPosition - toPosition > 0){
                        float p = points.get(i) - ROTATE_SPEED;
                        points.set(i, p < -Math.PI ? (float)(Math.PI) : p);
                    }else {
