@@ -23,14 +23,13 @@ public class DegreesView extends View implements View.OnTouchListener {
     private Paint paint;
     private Paint paintBlue;
     private float centerX; // центр вьюхи, ил центр полукруга
-    private float radius; // радиус полукруга, или амплитуда для гармонического закона
+    private float radius; // радиус полукруга, или амплитуда
     private float startY;
     private float stopY;
     private float pivotPoint;
 
-    private static final float OMEGA = 0.07f; //  ω - частота колебаний, 0,07 - потому что я агент 007, а если чесно то величина подобранная империческим путем
-    private static final float DEGREES_DELTA = (float) (Math.PI/9); // одной полоске соответствует 10 градусов (90/9)
-    private static final float ROTATE_SPEED = 0.02f;
+    private static final float DEGREES_DELTA = (float) (Math.PI/18); // одной полоске соответствует 10 градусов (90/9)
+    private static final float ROTATE_SPEED = 0.01f;
 
     private ArrayList<Float> points;
     private float fromPosition;
@@ -56,7 +55,7 @@ public class DegreesView extends View implements View.OnTouchListener {
     private void createPoints() {
         points = new ArrayList<>();
         pivotPoint = 0.01f;
-        for(float i = (float) -Math.PI; i < Math.PI ; i = i + DEGREES_DELTA) {   // проходимся по половине круга от -90 до 90 градусов
+        for(float i = (float) -Math.PI; i < Math.PI; i = i + DEGREES_DELTA) {
             points.add(i);
         }
     }
@@ -66,10 +65,15 @@ public class DegreesView extends View implements View.OnTouchListener {
         super.onDraw(canvas);
         canvas.drawLine(centerX, 0.0f, centerX, stopY * 1.5f , paintBlue); //center line
         for (float degree: points) {
-            degree = getGarmonicDegree(degree);
-            canvas.drawLine(centerX + degree, startY, centerX + degree, stopY, paint);
+            if(degree > -Math.PI/2 && degree < Math.PI/2) {// печатаем полукруг
+                degree = getDegree(degree);
+                canvas.drawLine(centerX + degree, startY, centerX + degree, stopY, paint);
+            }
         }
-        canvas.drawLine(centerX + getGarmonicDegree(pivotPoint), 0.1f, centerX + getGarmonicDegree(pivotPoint), stopY * 1.25f, paintBlue);
+        if(pivotPoint > -Math.PI/2 && pivotPoint < Math.PI/2) {
+            canvas.drawLine(centerX + getDegree(pivotPoint), 0.1f, centerX + getDegree(pivotPoint), stopY * 1.25f, paintBlue);
+        }
+        Log.d(TAG, "degree " + Math.toDegrees(pivotPoint));
     }
 
     //Создаем еффект кручения колеса, как в старом советском радио
@@ -102,7 +106,7 @@ public class DegreesView extends View implements View.OnTouchListener {
         }
     }
 
-    private float getGarmonicDegree(float point){
-        return (float) (radius * Math.sin(2 * Math.PI * OMEGA * point)); // изменяем растояние между линиями по гармоническому закону
+    private float getDegree(float point){
+        return (float) (radius * Math.sin(point));
     }
 }
