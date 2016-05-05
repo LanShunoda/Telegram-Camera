@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -43,7 +44,18 @@ public class CropFragment extends Fragment {
         cropImageView.setImageBitmap(bitmap);
         ImageButton rotate = (ImageButton) view.findViewById(R.id.bRotate);
         Log.d(TAG, "rotate image width " + rotate.getWidth());
-        degrees.addView(new DegreesView(getActivity()));
+        DegreesView degreesView = new DegreesView(getActivity());
+        degrees.addView(degreesView);
+        final TextView tvDegree = (TextView) view.findViewById(R.id.tvDegree);
+        degreesView.setDegreeChangedCallback(new DegreesView.DegreeChangedCallback() {
+            float previousDegree = 0;
+            @Override
+            public void onDegreeChanged(float degree) {
+                tvDegree.setText(degree + "*");
+                cropImageView.rotateImage(1);
+                previousDegree = degree;
+            }
+        });
         buttonsSetClickListeners();
 
         return view;

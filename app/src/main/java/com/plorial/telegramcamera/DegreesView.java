@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 
 /**
- * Created by plorial on 5/5/16. Тот день когда мне пригодился матан !!!
+ * Created by plorial on 5/5/16.
  */
 public class DegreesView extends View implements View.OnTouchListener {
 
@@ -27,6 +27,7 @@ public class DegreesView extends View implements View.OnTouchListener {
     private float startY;
     private float stopY;
     private float pivotPoint;
+    private DegreeChangedCallback degreeChangedCallback;
 
     private static final float DEGREES_DELTA = (float) (Math.PI/18); // одной полоске соответствует 10 градусов (90/9)
     private static final float ROTATE_SPEED = 0.01f;
@@ -73,7 +74,9 @@ public class DegreesView extends View implements View.OnTouchListener {
         if(pivotPoint > -Math.PI/2 && pivotPoint < Math.PI/2) {
             canvas.drawLine(centerX + getDegree(pivotPoint), 0.1f, centerX + getDegree(pivotPoint), stopY * 1.25f, paintBlue);
         }
-        Log.d(TAG, "degree " + Math.toDegrees(pivotPoint));
+        if(degreeChangedCallback != null){
+            degreeChangedCallback.onDegreeChanged((float) Math.toDegrees(pivotPoint));
+        }
     }
 
     //Создаем еффект кручения колеса, как в старом советском радио
@@ -108,5 +111,13 @@ public class DegreesView extends View implements View.OnTouchListener {
 
     private float getDegree(float point){
         return (float) (radius * Math.sin(point));
+    }
+
+    public void setDegreeChangedCallback(DegreeChangedCallback degreeChangedCallback) {
+        this.degreeChangedCallback = degreeChangedCallback;
+    }
+
+    public interface DegreeChangedCallback{
+        void onDegreeChanged(float degree);
     }
 }
