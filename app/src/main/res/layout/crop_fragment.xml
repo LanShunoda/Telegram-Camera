@@ -25,6 +25,16 @@
             android:src="@drawable/rotate"
             android:background="#00ffffff"
             android:layout_margin="10dp" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/degreesView"
+            android:layout_alignTop="@+id/bRotate"
+            android:layout_alignBottom="@+id/bRotate"
+            android:layout_toLeftOf="@+id/bRotate"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 
     <RelativeLayout

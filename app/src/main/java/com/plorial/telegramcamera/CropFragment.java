@@ -6,11 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -22,19 +25,25 @@ import java.io.IOException;
  */
 public class CropFragment extends Fragment {
 
+    public static final String TAG = CropFragment.class.getSimpleName();
+
     private View view;
     private CropImageView cropImageView;
     private String filePath;
+    private FrameLayout degrees;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.crop_fragment, container, false);
 
         cropImageView = (CropImageView) view.findViewById(R.id.cropImageView);
+        degrees = (FrameLayout) view.findViewById(R.id.degreesView);
         filePath = getArguments().getCharSequence(MainActivity.PHOTO_FILE_PATH).toString();
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         cropImageView.setImageBitmap(bitmap);
-
+        ImageButton rotate = (ImageButton) view.findViewById(R.id.bRotate);
+        Log.d(TAG, "rotate image width " + rotate.getWidth());
+        degrees.addView(new DegreesView(getActivity()));
         buttonsSetClickListeners();
 
         return view;
@@ -63,7 +72,7 @@ public class CropFragment extends Fragment {
         bRotate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cropImageView.rotateImage(90);
+                cropImageView.rotateImage(270);
             }
         });
         bDone.setOnClickListener(new View.OnClickListener() {
