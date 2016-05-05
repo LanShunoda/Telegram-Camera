@@ -30,7 +30,7 @@ public class DegreesView extends View implements View.OnTouchListener {
     private DegreeChangedCallback degreeChangedCallback;
 
     private static final float DEGREES_DELTA = (float) (Math.PI/18); // одной полоске соответствует 10 градусов (90/9)
-    private static final float ROTATE_SPEED = 0.01f;
+    private static final float ROTATE_SPEED = 0.0175f;
 
     private ArrayList<Float> points;
     private float fromPosition;

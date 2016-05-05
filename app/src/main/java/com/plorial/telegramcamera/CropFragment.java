@@ -52,7 +52,7 @@ public class CropFragment extends Fragment {
             @Override
             public void onDegreeChanged(float degree) {
                 tvDegree.setText(degree + "*");
-                cropImageView.rotateImage(1);
+                cropImageView.rotateImage((int)(degree-previousDegree));
                 previousDegree = degree;
             }
         });
