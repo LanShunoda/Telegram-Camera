@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/tvDegree"
-        android:textColor="#ffffffff"/>
+        android:textColor="#ffffffff"
+        android:textSize="20dp"/>
 
     <RelativeLayout
         android:orientation="horizontal"
@@ -58,7 +59,8 @@
             android:text="CANCEL"
             android:id="@+id/bCancel"
             android:background="#00ffffff"
-            android:textColor="#ffffffff"/>
+            android:textColor="#ffffffff"
+            android:paddingRight="5dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -69,7 +71,8 @@
             android:layout_toRightOf="@+id/bCancel"
             android:layout_toEndOf="@+id/bCancel"
             android:background="#00ffffff"
-            android:textColor="#ffffffff"/>
+            android:textColor="#ffffffff"
+            android:paddingLeft="5dp" />
 
         <Button
             android:layout_width="wrap_content"

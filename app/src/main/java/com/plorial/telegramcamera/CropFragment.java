@@ -20,6 +20,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 /**
  * Created by plorial on 5/5/16.
@@ -50,9 +51,11 @@ public class CropFragment extends Fragment {
             float previousDegree = 0;
             @Override
             public void onDegreeChanged(float degree) {
-                tvDegree.setText(((-1) * degree) + "°");
                 cropImageView.rotateImage((int)(degree-previousDegree));
                 previousDegree = degree;
+                DecimalFormat df=new DecimalFormat("0.00");
+                String formate = df.format(((-1) *degree));
+                tvDegree.setText((formate) + "°");
             }
         });
         buttonsSetClickListeners();

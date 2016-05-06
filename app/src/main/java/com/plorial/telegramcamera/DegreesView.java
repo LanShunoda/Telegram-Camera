@@ -21,6 +21,7 @@ public class DegreesView extends View implements View.OnTouchListener {
 
     private Paint paint;
     private Paint paintBlue;
+    private Paint centerPaint;
     private float centerX; // центр вьюхи, ил центр полукруга
     private float radius; // радиус полукруга, или амплитуда
     private float startY;
@@ -40,6 +41,9 @@ public class DegreesView extends View implements View.OnTouchListener {
         paint.setColor(Color.WHITE);
         paintBlue = new Paint();
         paintBlue.setColor(Color.BLUE);
+        centerPaint = new Paint();
+        centerPaint.setColor(Color.BLUE);
+        centerPaint.setStrokeWidth(2f);
         Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         Drawable d = context.getResources().getDrawable(R.drawable.rotate);
 
@@ -63,7 +67,7 @@ public class DegreesView extends View implements View.OnTouchListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawLine(centerX, 0.0f, centerX, stopY * 1.5f , paintBlue); //center line
+        canvas.drawLine(centerX, 0.0f, centerX, stopY * 1.5f , centerPaint); //center line
         for (float degree: points) {
             if(degree > -Math.PI/2 && degree < Math.PI/2) {// печатаем полукруг
                 if(isBetweenZeroAndPivot(degree, pivotPoint)){
