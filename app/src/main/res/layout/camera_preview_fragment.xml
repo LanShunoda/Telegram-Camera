@@ -73,4 +73,10 @@
         android:textColor="#ffffff"
         android:background="@drawable/video_timing_background"
         android:padding="5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/thumbImage"
+        android:layout_gravity="left|top" />
 </RelativeLayout>

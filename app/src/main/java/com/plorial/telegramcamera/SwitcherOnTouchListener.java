@@ -2,11 +2,14 @@ package com.plorial.telegramcamera;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.media.ThumbnailUtils;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
@@ -15,7 +18,9 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import android.widget.ViewSwitcher;
@@ -51,6 +56,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private AppCompatImageButton switchButtonCircle;
     private ViewFlipper flashFlipper;
     private TextView tvVideoTiming;
+    private ImageView videoThumb;
 
     private int colorPicture;
     private int colorVideo;
@@ -80,6 +86,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         switchButtonCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
         flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
         tvVideoTiming = (TextView) view.findViewById(R.id.tvVideoTiming);
+        videoThumb = (ImageView) view.findViewById(R.id.thumbImage);
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +133,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                     isRecording = false;
                 }
             }
+            showVideoThumb();
         }else {
             recordButton.setImageDrawable(starting);
             starting.start();
@@ -142,6 +150,23 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             }
             timer = new Timer();
             timer.schedule(new UpdateTimeTask(uiHandler,tvVideoTiming), 0, 1000);
+        }
+    }
+
+    private void showVideoThumb() {
+        if(currentVideoFile != null && currentVideoFile.exists()) {
+            Log.d(TAG,"show thumb");
+            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(currentVideoFile.getAbsolutePath(), MediaStore.Video.Thumbnails.MICRO_KIND);
+            videoThumb.setImageBitmap(thumb);
+            videoThumb.setVisibility(View.VISIBLE);
+            videoThumb.startAnimation(AnimationUtils.loadAnimation(view.getContext(),R.anim.video_thumb_in));
+            uiHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    videoThumb.startAnimation(AnimationUtils.loadAnimation(view.getContext(),R.anim.video_thumb_out));
+                    videoThumb.setVisibility(View.INVISIBLE);
+                }
+            },5000);
         }
     }
 

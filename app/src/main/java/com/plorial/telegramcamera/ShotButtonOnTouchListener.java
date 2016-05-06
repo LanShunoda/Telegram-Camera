@@ -165,9 +165,10 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            assert fos != null;
             try {
-                fos.close();
+                if(fos != null) {
+                    fos.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

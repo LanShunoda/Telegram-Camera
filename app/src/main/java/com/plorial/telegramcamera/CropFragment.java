@@ -43,7 +43,6 @@ public class CropFragment extends Fragment {
         filePath = getArguments().getCharSequence(MainActivity.PHOTO_FILE_PATH).toString();
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         cropImageView.setImageBitmap(bitmap);
-        ImageButton rotate = (ImageButton) view.findViewById(R.id.bRotate);
         DegreesView degreesView = new DegreesView(getActivity());
         degrees.addView(degreesView);
         final TextView tvDegree = (TextView) view.findViewById(R.id.tvDegree);
