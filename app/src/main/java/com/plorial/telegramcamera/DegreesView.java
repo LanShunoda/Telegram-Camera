@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +28,7 @@ public class DegreesView extends View implements View.OnTouchListener {
     private float pivotPoint;
     private DegreeChangedCallback degreeChangedCallback;
 
-    private static final float DEGREES_DELTA = (float) (Math.PI/18); // одной полоске соответствует 10 градусов (90/9)
+    private static final float DEGREES_DELTA = (float) (Math.PI/18); // одной полоске соответствует 10 градусов
     private static final float ROTATE_SPEED = 0.0175f;
 
     private ArrayList<Float> points;
@@ -67,8 +66,13 @@ public class DegreesView extends View implements View.OnTouchListener {
         canvas.drawLine(centerX, 0.0f, centerX, stopY * 1.5f , paintBlue); //center line
         for (float degree: points) {
             if(degree > -Math.PI/2 && degree < Math.PI/2) {// печатаем полукруг
-                degree = getDegree(degree);
-                canvas.drawLine(centerX + degree, startY, centerX + degree, stopY, paint);
+                if(isBetweenZeroAndPivot(degree, pivotPoint)){
+                    degree = getDegree(degree);
+                    canvas.drawLine(centerX + degree, startY, centerX + degree, stopY, paintBlue);
+                }else{
+                    degree = getDegree(degree);
+                    canvas.drawLine(centerX + degree, startY, centerX + degree, stopY, paint);
+                }
             }
         }
         if(pivotPoint > -Math.PI/2 && pivotPoint < Math.PI/2) {
@@ -107,6 +111,15 @@ public class DegreesView extends View implements View.OnTouchListener {
             float p = point + ROTATE_SPEED;
             return p > Math.PI ? (float)(-Math.PI) : p;
         }
+    }
+
+    private boolean isBetweenZeroAndPivot(float degree, float pivot){
+        if(degree > 0 && degree < pivot){
+            return true;
+        } else if (degree < 0 && degree > pivot){
+            return true;
+        }else
+            return false;
     }
 
     private float getDegree(float point){

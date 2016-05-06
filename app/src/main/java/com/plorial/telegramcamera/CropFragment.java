@@ -43,7 +43,6 @@ public class CropFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         cropImageView.setImageBitmap(bitmap);
         ImageButton rotate = (ImageButton) view.findViewById(R.id.bRotate);
-        Log.d(TAG, "rotate image width " + rotate.getWidth());
         DegreesView degreesView = new DegreesView(getActivity());
         degrees.addView(degreesView);
         final TextView tvDegree = (TextView) view.findViewById(R.id.tvDegree);
@@ -51,7 +50,7 @@ public class CropFragment extends Fragment {
             float previousDegree = 0;
             @Override
             public void onDegreeChanged(float degree) {
-                tvDegree.setText(degree + "*");
+                tvDegree.setText(((-1) * degree) + "°");
                 cropImageView.rotateImage((int)(degree-previousDegree));
                 previousDegree = degree;
             }
