@@ -2,11 +2,14 @@ package com.plorial.telegramcamera;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -93,7 +96,12 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                 startRecording();
             }
         });
-
+        videoThumb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startVideoPlayFragment();
+            }
+        });
         colorPicture = view.getContext().getResources().getColor(R.color.colorPicture);
         colorVideo = view.getContext().getResources().getColor(R.color.colorVideo);
 
@@ -105,6 +113,16 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
 
         switcher.setInAnimation(inAnim);
         switcher.setOutAnimation(outAnim);
+    }
+
+    private void startVideoPlayFragment() {
+        VideoPlayerFragment fragment = new VideoPlayerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence(MainActivity.VIDEO_FILE_PATH, currentVideoFile.getAbsolutePath());
+        fragment.setArguments(bundle);
+        FragmentTransaction transaction = ((Activity)view.getContext()).getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
     }
 
     private void startRecording() {
