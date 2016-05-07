@@ -43,7 +43,6 @@ public class CameraPreviewFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.camera_preview_fragment, container, false);
-        currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
         preview = new CameraPreview(getActivity());
         frameLayout = (FrameLayout) view.findViewById(R.id.camera_preview);
         frameLayout.addView(preview);
@@ -56,9 +55,7 @@ public class CameraPreviewFragment extends Fragment{
         tvVideoTiming.setVisibility(View.INVISIBLE);
         shotButtonOnTouchListener = new ShotButtonOnTouchListener(view);
         shotButton.setOnTouchListener(shotButtonOnTouchListener);
-
         flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
-
         flashFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.flash_in));
         flashFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.flash_out));
         flashFlipper.setOnClickListener(new View.OnClickListener() {
@@ -67,28 +64,34 @@ public class CameraPreviewFragment extends Fragment{
                 changeFlash();
             }
         });
-
-        switchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!SwitcherOnTouchListener.isRecording.get()) {
-                    switchButton.startAnimation(animationRotate);
-                    AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
-                    if (!isSwitchCircleFilled) {
-                        AnimatedVectorDrawable drawableFilling = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_filling_vector);
-                        switchCircle.setImageDrawable(drawableFilling);
-                        drawableFilling.start();
-                        isSwitchCircleFilled = true;
-                    } else {
-                        AnimatedVectorDrawable drawableHollowing = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_hollowing_vector);
-                        switchCircle.setImageDrawable(drawableHollowing);
-                        drawableHollowing.start();
-                        isSwitchCircleFilled = false;
+        final AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
+        if (getAvailableCamera() == -1) {
+            currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+            switchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!SwitcherOnTouchListener.isRecording.get()) {
+                        switchButton.startAnimation(animationRotate);
+                        if (!isSwitchCircleFilled) {
+                            AnimatedVectorDrawable drawableFilling = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_filling_vector);
+                            switchCircle.setImageDrawable(drawableFilling);
+                            drawableFilling.start();
+                            isSwitchCircleFilled = true;
+                        } else {
+                            AnimatedVectorDrawable drawableHollowing = AnimatedVectorDrawable.getDrawable(getActivity(), R.drawable.switch_circle_hollowing_vector);
+                            switchCircle.setImageDrawable(drawableHollowing);
+                            drawableHollowing.start();
+                            isSwitchCircleFilled = false;
+                        }
+                        switchCamera();
                     }
-                    switchCamera();
                 }
-            }
-        });
+            });
+        } else {
+            currentCameraId = getAvailableCamera();
+            switchButton.setVisibility(View.GONE);
+            switchCircle.setVisibility(View.GONE);
+        }
 
         return view;
     }
@@ -138,6 +141,19 @@ public class CameraPreviewFragment extends Fragment{
             e.printStackTrace();
         }
         camera.startPreview();
+    }
+
+    private int getAvailableCamera(){
+        int numCameras = Camera.getNumberOfCameras();
+        if (numCameras == 1) {
+            if(getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)){
+                return Camera.CameraInfo.CAMERA_FACING_FRONT;
+            }else {
+                return Camera.CameraInfo.CAMERA_FACING_BACK;
+            }
+        } else {
+            return -1;
+        }
     }
 
     private Camera getCameraInstance(int id){
