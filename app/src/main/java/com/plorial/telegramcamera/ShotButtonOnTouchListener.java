@@ -137,7 +137,7 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
 
     private void beginAgainCameraPreview(){
         switcher.showNext();
-        SwitcherOnTouchListener.isRecording = false;
+        SwitcherOnTouchListener.isRecording.set(false);
         view.findViewById(R.id.flashFlipper).setVisibility(View.VISIBLE);
         camera.startPreview();
     }
@@ -178,7 +178,7 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     private File createFile(){
         File pictureFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         Date date = new Date();
-        File photo = new File(pictureFile,"IMG " + date +".jpg");
+        File photo = new File(pictureFile,"IMG_" + date.getYear() + "_" + date.getMonth() + "_" + date.getDay() + "_" + date.getHours() + "_" + date.getMinutes() + "_" + date.getSeconds() + ".jpg");
         return photo;
     }
 

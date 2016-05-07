@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by plorial on 4/28/16.
@@ -63,7 +64,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
 
     private int colorPicture;
     private int colorVideo;
-    public static boolean isRecording = false;
+    public static AtomicBoolean isRecording;
 
     private Animation inAnim;
     private Animation outAnim;
@@ -77,7 +78,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     public SwitcherOnTouchListener(View view,CameraPreview preview) {
         this.view = view;
         this.preview = preview;
-        isRecording = false;
+        isRecording = new AtomicBoolean(false);
         circle1 = (AppCompatImageView) view.findViewById(R.id.imageCircle1);
         circle2 = (AppCompatImageView) view.findViewById(R.id.imageCircle2);
         bottomPanelBackground = (ImageView) view.findViewById(R.id.bottomPanelBackground);
@@ -131,7 +132,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         Animation bottomPanelSlidingDown = AnimationUtils.loadAnimation(view.getContext(),R.anim.bottom_panel_sliding_down);
         Animation bottomPanelSlidingUp = AnimationUtils.loadAnimation(view.getContext(),R.anim.bottom_panel_sliding_up);
 
-        if(isRecording) {
+        if(isRecording.get()) {
             recordButton.setImageDrawable(stoping);
             stoping.start();
             bottomPanelBackground.setVisibility(View.VISIBLE);
@@ -148,7 +149,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                 } finally {
                     releaseMediaRecorder();
                     timer.cancel();
-                    isRecording = false;
+                    isRecording.set(false);
                 }
             }
             showVideoThumb();
@@ -159,7 +160,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             bottomPanelBackground.setVisibility(View.INVISIBLE);
             tvVideoTiming.setVisibility(View.VISIBLE);
             makeViewsDisappear();
-            isRecording = true;
+            isRecording.set(true);
             if (prepareVideoRecorder()) {
                 Log.d(TAG, "start recording");
                 recorder.start();
@@ -227,7 +228,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private File getVideoFile(){
         File videoFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         Date date = new Date();
-        File video = new File(videoFile,"VID " + date +".mp4");
+        File video = new File(videoFile,"VID_" + date.getYear() + "_" + date.getMonth() + "_" + date.getDay() + "_" + date.getHours() + "_" + date.getMinutes() + "_" + date.getSeconds() + ".mp4");
         Log.d(TAG, "video file created " + video.getAbsolutePath());
         return video;
     }
@@ -264,7 +265,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(!isRecording) {
+        if(!isRecording.get()) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     fromPosition = event.getX();

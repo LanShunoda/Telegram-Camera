@@ -71,7 +71,7 @@ public class CameraPreviewFragment extends Fragment{
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!SwitcherOnTouchListener.isRecording) {
+                if(!SwitcherOnTouchListener.isRecording.get()) {
                     switchButton.startAnimation(animationRotate);
                     AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
                     if (!isSwitchCircleFilled) {

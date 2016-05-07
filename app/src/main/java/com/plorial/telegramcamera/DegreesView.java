@@ -58,7 +58,7 @@ public class DegreesView extends View implements View.OnTouchListener {
 
     private void createPoints() {
         points = new ArrayList<>();
-        pivotPoint = 0.01f;
+        pivotPoint = 0.00001f;
         for(float i = (float) -Math.PI; i < Math.PI; i = i + DEGREES_DELTA) {
             points.add(i);
         }

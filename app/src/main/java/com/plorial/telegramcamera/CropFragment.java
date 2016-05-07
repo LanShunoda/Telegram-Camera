@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -89,16 +90,22 @@ public class CropFragment extends Fragment {
             }
         });
         bDone.setOnClickListener(new View.OnClickListener() {
+            Bitmap cropped;
             @Override
             public void onClick(View v) {
-                final Bitmap cropped = cropImageView.getCroppedImage();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        bitmapToFile(cropped);
-                    }
-                }).start();
-                startCameraFragment();
+                try {
+                    cropped = cropImageView.getCroppedImage();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            bitmapToFile(cropped);
+                        }
+                    }).start();
+                    startCameraFragment();
+                }catch (IllegalArgumentException e){
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(),"Crop borders must be inside photo", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
