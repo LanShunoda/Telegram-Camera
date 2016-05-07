@@ -29,4 +29,5 @@ dependencies {
     compile 'com.android.support:animated-vector-drawable:23.3.0'
     compile 'com.wnafee:vector-compat:1.0.5'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.0.+'
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }
