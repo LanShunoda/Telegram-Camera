@@ -56,14 +56,18 @@ public class CameraPreviewFragment extends Fragment{
         shotButtonOnTouchListener = new ShotButtonOnTouchListener(view);
         shotButton.setOnTouchListener(shotButtonOnTouchListener);
         flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
-        flashFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.flash_in));
-        flashFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.flash_out));
-        flashFlipper.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeFlash();
-            }
-        });
+        if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            flashFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.flash_in));
+            flashFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.flash_out));
+            flashFlipper.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    changeFlash();
+                }
+            });
+        }else {
+            flashFlipper.setVisibility(View.GONE);
+        }
         final AppCompatImageButton switchCircle = (AppCompatImageButton) view.findViewById(R.id.switchButtonCircle);
         if (getAvailableCamera() == -1) {
             currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
@@ -103,6 +107,7 @@ public class CameraPreviewFragment extends Fragment{
         preview.setCamera(camera);
         cameraParams = camera.getParameters();
         cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
+        camera.setParameters(cameraParams);
         shotButtonOnTouchListener.setCamera(camera);
         shotRecordSwitcher.setCamera(camera);
     }
@@ -118,6 +123,8 @@ public class CameraPreviewFragment extends Fragment{
             case Camera.Parameters.FLASH_MODE_OFF:
                 cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
                 break;
+            default:
+                camera.setParameters(cameraParams);
         }
         flashFlipper.showNext();
     }

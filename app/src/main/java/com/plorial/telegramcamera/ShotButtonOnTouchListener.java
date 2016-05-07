@@ -19,6 +19,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ViewFlipper;
 import android.widget.ViewSwitcher;
 
 import com.wnafee.vector.compat.AnimatedVectorDrawable;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -81,8 +83,10 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
         switcher.setInAnimation(inAnim);
         switcher.setOutAnimation(outAnim);
         switcher.showNext();
-        view.findViewById(R.id.flashFlipper).setVisibility(View.INVISIBLE);
-
+        ViewFlipper flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
+        if(flashFlipper.getVisibility() != View.GONE) {
+            flashFlipper.setVisibility(View.INVISIBLE);
+        }
         bCrop = (ImageButton) view.findViewById(R.id.crop);
         bCancel.startAnimation(scaleAnimation);
         bDone.startAnimation(scaleAnimation);
@@ -138,7 +142,10 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     private void beginAgainCameraPreview(){
         switcher.showNext();
         SwitcherOnTouchListener.isRecording.set(false);
-        view.findViewById(R.id.flashFlipper).setVisibility(View.VISIBLE);
+        ViewFlipper flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
+        if(flashFlipper.getVisibility() != View.GONE) {
+            flashFlipper.setVisibility(View.VISIBLE);
+        }
         camera.startPreview();
     }
 
@@ -177,8 +184,8 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
 
     private File createFile(){
         File pictureFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        Date date = new Date();
-        File photo = new File(pictureFile,"IMG_" + date.getYear() + "_" + date.getMonth() + "_" + date.getDay() + "_" + date.getHours() + "_" + date.getMinutes() + "_" + date.getSeconds() + ".jpg");
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File photo = new File(pictureFile,"IMG_" + timeStamp + ".jpg");
         return photo;
     }
 

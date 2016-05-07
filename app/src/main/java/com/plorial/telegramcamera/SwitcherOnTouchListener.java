@@ -32,6 +32,7 @@ import com.wnafee.vector.compat.AnimatedVectorDrawable;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -194,7 +195,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         recorder = new MediaRecorder();
         Log.d(TAG, "prepare recording");
         recorder.setCamera(camera);
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         recorder.setProfile(CamcorderProfile.get(CameraPreviewFragment.currentCameraId, CamcorderProfile.QUALITY_HIGH));
         currentVideoFile = getVideoFile();
@@ -227,8 +228,8 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
 
     private File getVideoFile(){
         File videoFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        Date date = new Date();
-        File video = new File(videoFile,"VID_" + date.getYear() + "_" + date.getMonth() + "_" + date.getDay() + "_" + date.getHours() + "_" + date.getMinutes() + "_" + date.getSeconds() + ".mp4");
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File video = new File(videoFile,"VID_" + timeStamp + ".mp4");
         Log.d(TAG, "video file created " + video.getAbsolutePath());
         return video;
     }
@@ -240,27 +241,35 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private void makeViewsAppear(){
         circle1.startAnimation(inAnim);
         circle2.startAnimation(inAnim);
-        switchButton.startAnimation(inAnim);
-        switchButtonCircle.startAnimation(inAnim);
-        flashFlipper.setAnimation(inAnim);
+        if(switchButton.getVisibility() != View.GONE) {
+            switchButton.startAnimation(inAnim);
+            switchButtonCircle.startAnimation(inAnim);
+            switchButton.setVisibility(View.VISIBLE);
+            switchButtonCircle.setVisibility(View.VISIBLE);
+        }
+        if(flashFlipper.getVisibility() != View.GONE) {
+            flashFlipper.setAnimation(inAnim);
+            flashFlipper.setVisibility(View.VISIBLE);
+        }
         circle1.setVisibility(View.VISIBLE);
         circle2.setVisibility(View.VISIBLE);
-        switchButton.setVisibility(View.VISIBLE);
-        switchButtonCircle.setVisibility(View.VISIBLE);
-        flashFlipper.setVisibility(View.VISIBLE);
     }
 
     private void makeViewsDisappear(){
         circle1.startAnimation(outAnim);
         circle2.startAnimation(outAnim);
-        switchButton.startAnimation(outAnim);
-        switchButtonCircle.startAnimation(outAnim);
-        flashFlipper.startAnimation(outAnim);
+        if(switchButton.getVisibility() != View.GONE) {
+            switchButton.startAnimation(outAnim);
+            switchButtonCircle.startAnimation(outAnim);
+            switchButton.setVisibility(View.INVISIBLE);
+            switchButtonCircle.setVisibility(View.INVISIBLE);
+        }
+        if(flashFlipper.getVisibility() != View.GONE) {
+            flashFlipper.startAnimation(outAnim);
+            flashFlipper.setVisibility(View.INVISIBLE);
+        }
         circle1.setVisibility(View.INVISIBLE);
         circle2.setVisibility(View.INVISIBLE);
-        switchButton.setVisibility(View.INVISIBLE);
-        switchButtonCircle.setVisibility(View.INVISIBLE);
-        flashFlipper.setVisibility(View.INVISIBLE);
     }
 
     @Override
