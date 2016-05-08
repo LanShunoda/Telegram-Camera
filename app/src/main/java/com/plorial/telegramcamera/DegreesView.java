@@ -83,7 +83,7 @@ public class DegreesView extends View implements View.OnTouchListener {
             canvas.drawLine(centerX + getDegree(pivotPoint), 0.1f, centerX + getDegree(pivotPoint), stopY * 1.25f, paintBlue);
         }
         if(degreeChangedCallback != null){
-            degreeChangedCallback.onDegreeChanged((float) Math.toDegrees(pivotPoint));
+            degreeChangedCallback.onDegreeChanged((float) Math.toDegrees(pivotPoint) * (-1));
         }
     }
 
@@ -124,6 +124,22 @@ public class DegreesView extends View implements View.OnTouchListener {
             return true;
         }else
             return false;
+    }
+
+    public void changeDegree(float degree){
+        float radians = (float) Math.toRadians(degree);
+        float p = pivotPoint + radians;
+        if(p < -Math.PI){
+            p = (float) (Math.PI - getDelta(p));
+        }else if(p > Math.PI){
+            p = (float) (-Math.PI + getDelta(p));
+        }
+        pivotPoint = p;
+        invalidate();
+    }
+
+    private float getDelta(float p){
+        return (float) (Math.abs(p) - Math.PI);
     }
 
     public void resetDegree(){

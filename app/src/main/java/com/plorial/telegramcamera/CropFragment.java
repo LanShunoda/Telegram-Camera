@@ -36,6 +36,7 @@ public class CropFragment extends Fragment {
     private FrameLayout degrees;
     private DegreesView degreesView;
     private float previousDegree = 0;
+    private boolean is90Rotated = false;
 
     @Nullable
     @Override
@@ -53,10 +54,15 @@ public class CropFragment extends Fragment {
         degreesView.setDegreeChangedCallback(new DegreesView.DegreeChangedCallback() {
             @Override
             public void onDegreeChanged(float degree) {
-                cropImageView.rotateImage((int)(degree-previousDegree));
+                cropImageView.rotateImage((int)(degree - previousDegree));
+                if(is90Rotated) {
+                    cropImageView.rotateImage(-1); // crop borders flow to infinity without this
+                    cropImageView.rotateImage(1);
+                    is90Rotated = false;
+                }
                 previousDegree = degree;
                 DecimalFormat df=new DecimalFormat("0.00");
-                String formate = df.format(((-1) *degree));
+                String formate = df.format((degree));
                 tvDegree.setText((formate) + "°");
             }
         });
@@ -90,7 +96,8 @@ public class CropFragment extends Fragment {
         bRotate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cropImageView.rotateImage(270);
+                degreesView.changeDegree(90f);
+                is90Rotated = true;
             }
         });
         bDone.setOnClickListener(new View.OnClickListener() {
