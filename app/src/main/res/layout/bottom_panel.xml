@@ -16,7 +16,7 @@
             android:layout_gravity="center_horizontal"
             android:id="@+id/circle"
             app:srcCompat="@drawable/circle"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="15dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"

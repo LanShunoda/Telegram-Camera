@@ -9,5 +9,4 @@
     <target
         android:name="circle_extending"
         android:animation="@anim/video_photo_constrincting" />
-
 </animated-vector>
