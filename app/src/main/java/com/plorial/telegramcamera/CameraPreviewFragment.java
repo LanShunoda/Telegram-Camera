@@ -1,7 +1,10 @@
 package com.plorial.telegramcamera;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -38,6 +41,7 @@ public class CameraPreviewFragment extends Fragment{
     private Camera.Parameters cameraParams;
     private ShotButtonOnTouchListener shotButtonOnTouchListener;
     private  SwitcherOnTouchListener shotRecordSwitcher;
+    private BroadcastReceiver receiver;
 
     @Nullable
     @Override
@@ -110,6 +114,7 @@ public class CameraPreviewFragment extends Fragment{
         camera.setParameters(cameraParams);
         shotButtonOnTouchListener.setCamera(camera);
         shotRecordSwitcher.setCamera(camera);
+
     }
 
     private void changeFlash() {
@@ -196,5 +201,40 @@ public class CameraPreviewFragment extends Fragment{
             camera = null;
         }
         shotRecordSwitcher.releaseMediaRecorder();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+
+        receiver = new ScreenReceiver();
+        getActivity().registerReceiver(receiver, filter);
+    }
+
+    class ScreenReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+           if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+                CameraPreview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
+                try {
+                    camera.setPreviewDisplay(preview.getHolder());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                camera.startPreview();
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiver != null){
+            getActivity().unregisterReceiver(receiver);
+            receiver = null;
+        }
     }
 }
