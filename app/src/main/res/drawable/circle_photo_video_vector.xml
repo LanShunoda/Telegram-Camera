@@ -1,0 +1,13 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/circle" >
+    <target
+        android:name="circle_extending"
+        android:animation="@anim/photo_video_extending" />
+    <target
+        android:name="circle_moving"
+        android:animation="@anim/photo_video_moving" />
+    <target
+        android:name="circle_extending"
+        android:animation="@anim/photo_video_constrincting" />
+
+</animated-vector>

@@ -52,8 +52,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private float fromPosition = 0;
     private View view;
 
-    private AppCompatImageView circle1;
-    private AppCompatImageView circle2;
+    private AppCompatImageView circle;
 
     private ViewSwitcher switcher;
     private ImageView bottomPanelBackground;
@@ -80,11 +79,9 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         this.view = view;
         this.preview = preview;
         isRecording = new AtomicBoolean(false);
-        circle1 = (AppCompatImageView) view.findViewById(R.id.imageCircle1);
-        circle2 = (AppCompatImageView) view.findViewById(R.id.imageCircle2);
+        circle = (AppCompatImageView) view.findViewById(R.id.circle);
+
         bottomPanelBackground = (ImageView) view.findViewById(R.id.bottomPanelBackground);
-        circle1.setImageResource(R.drawable.circle_white);
-        circle2.setImageResource(R.drawable.circle_black);
         switcher = (ViewSwitcher) view.findViewById(R.id.switcher);
         recordButton = (AppCompatImageButton) view.findViewById(R.id.recordButton);
         switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
@@ -239,8 +236,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     }
 
     private void makeViewsAppear(){
-        circle1.startAnimation(inAnim);
-        circle2.startAnimation(inAnim);
+        circle.startAnimation(inAnim);
         if(switchButton.getVisibility() != View.GONE) {
             switchButton.startAnimation(inAnim);
             switchButtonCircle.startAnimation(inAnim);
@@ -251,13 +247,11 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             flashFlipper.setAnimation(inAnim);
             flashFlipper.setVisibility(View.VISIBLE);
         }
-        circle1.setVisibility(View.VISIBLE);
-        circle2.setVisibility(View.VISIBLE);
+        circle.setVisibility(View.VISIBLE);
     }
 
     private void makeViewsDisappear(){
-        circle1.startAnimation(outAnim);
-        circle2.startAnimation(outAnim);
+        circle.startAnimation(outAnim);
         if(switchButton.getVisibility() != View.GONE) {
             switchButton.startAnimation(outAnim);
             switchButtonCircle.startAnimation(outAnim);
@@ -268,8 +262,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             flashFlipper.startAnimation(outAnim);
             flashFlipper.setVisibility(View.INVISIBLE);
         }
-        circle1.setVisibility(View.INVISIBLE);
-        circle2.setVisibility(View.INVISIBLE);
+        circle.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -283,18 +276,18 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                     float toPosition = event.getX();
                     if (fromPosition < toPosition && switcher.getCurrentView() == switcher.getChildAt(0)) {
                         switcher.showNext();
-                        circle1.setImageResource(R.drawable.circle_black);
-                        circle2.setImageResource(R.drawable.circle_white);
-
+                        AnimatedVectorDrawable circlePhotoVideo = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.circle_photo_video_vector);
+                        circle.setImageDrawable(circlePhotoVideo);
+                        circlePhotoVideo.start();
                         AnimatedVectorDrawable extending = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_extending_vector);
                         recordButton.setImageDrawable(extending);
                         extending.start();
                         bottomBackgroundAnim(colorPicture, colorVideo);
                     } else if (fromPosition > toPosition && switcher.getCurrentView() == switcher.getChildAt(1)) {
                         switcher.showPrevious();
-                        circle1.setImageResource(R.drawable.circle_white);
-                        circle2.setImageResource(R.drawable.circle_black);
-
+                        AnimatedVectorDrawable circleVideoPhoto = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.circle_video_photo_vector);
+                        circle.setImageDrawable(circleVideoPhoto);
+                        circleVideoPhoto.start();
                         AnimatedVectorDrawable constriction = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_constriction_vector);
                         recordButton.setImageDrawable(constriction);
                         constriction.start();

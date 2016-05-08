@@ -9,28 +9,14 @@
     android:layout_alignBottom="@+id/camera_preview"
     android:id="@+id/linearLayout"
     >
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_above="@+id/viewflipper"
-        android:layout_marginBottom="5dp">
 
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageCircle1"
-            app:srcCompat="@drawable/circle_black"
-            android:layout_marginRight="2dp" />
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageCircle2"
-            app:srcCompat="@drawable/circle_black"
-            android:layout_marginLeft="2dp" />
-    </LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/circle"
+            app:srcCompat="@drawable/circle"
+            android:layout_marginBottom="10dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"

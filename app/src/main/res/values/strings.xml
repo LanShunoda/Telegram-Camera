@@ -11,5 +11,8 @@
     <string name="record_circle_path_start">M54,40m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0</string>
     <string name="recording_button_circle">M54,40m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0</string>
     <string name="recording_button_rect">M42,23L66,23A5,5 0,0 1,71 28L71,52A5,5 0,0 1,66 57L42,57A5,5 0,0 1,37 52L37,28A5,5 0,0 1,42 23z</string>
+    <string name="circle_left">M10,0L10,0A10,10 0,0 1,20 10L20,10A10,10 0,0 1,10 20L10,20A10,10 0,0 1,0 10L0,10A10,10 0,0 1,10 0z</string>
+    <string name="circle_right">M50,0L50,0A10,10 0,0 1,60 10L60,10A10,10 0,0 1,50 20L50,20A10,10 0,0 1,40 10L40,10A10,10 0,0 1,50 0z</string>
+    <string name="circle_extended">M10,0L50,0A10,10 0,0 1,60 10L60,10A10,10 0,0 1,50 20L10,20A10,10 0,0 1,0 10L0,10A10,10 0,0 1,10 0z</string>
 
 </resources>
