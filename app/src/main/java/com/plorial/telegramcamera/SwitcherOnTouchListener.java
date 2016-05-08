@@ -72,6 +72,11 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     private Camera camera;
     private File currentVideoFile;
 
+    AnimatedVectorDrawable starting;
+    AnimatedVectorDrawable stoping;
+    Animation bottomPanelSlidingDown;
+    Animation bottomPanelSlidingUp;
+
     private Timer timer;
     private final Handler uiHandler = new Handler();
 
@@ -104,6 +109,11 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         colorPicture = view.getContext().getResources().getColor(R.color.colorPicture);
         colorVideo = view.getContext().getResources().getColor(R.color.colorVideo);
 
+        starting = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.recording_button_starting_vector);
+        stoping = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.recording_button_stoping_vector);
+        bottomPanelSlidingDown = AnimationUtils.loadAnimation(view.getContext(), R.anim.bottom_panel_sliding_down);
+        bottomPanelSlidingUp = AnimationUtils.loadAnimation(view.getContext(), R.anim.bottom_panel_sliding_up);
+
         inAnim = new AlphaAnimation(0, 1);
         inAnim.setDuration(ANIM_SPEED/2);
 
@@ -125,32 +135,8 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
     }
 
     private void startRecording() {
-        AnimatedVectorDrawable starting = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.recording_button_starting_vector);
-        AnimatedVectorDrawable stoping = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.recording_button_stoping_vector);
-        Animation bottomPanelSlidingDown = AnimationUtils.loadAnimation(view.getContext(),R.anim.bottom_panel_sliding_down);
-        Animation bottomPanelSlidingUp = AnimationUtils.loadAnimation(view.getContext(),R.anim.bottom_panel_sliding_up);
-
         if(isRecording.get()) {
-            recordButton.setImageDrawable(stoping);
-            stoping.start();
-            bottomPanelBackground.setVisibility(View.VISIBLE);
-            bottomPanelBackground.startAnimation(bottomPanelSlidingUp);
-            tvVideoTiming.setVisibility(View.INVISIBLE);
-            makeViewsAppear();
-            if (recorder != null) {
-                Log.d(TAG, "stop recording");
-                try {
-                    recorder.stop();
-                }catch (RuntimeException e){
-                    e.printStackTrace();       // video stoped too fast, android doesn't properly create file
-                    currentVideoFile.delete(); // http://stackoverflow.com/questions/10147563/android-mediarecorder-stop-failed
-                } finally {
-                    releaseMediaRecorder();
-                    timer.cancel();
-                    isRecording.set(false);
-                }
-            }
-            showVideoThumb();
+            stopRecording();
         }else {
             recordButton.setImageDrawable(starting);
             starting.start();
@@ -168,6 +154,29 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             timer = new Timer();
             timer.schedule(new UpdateTimeTask(uiHandler,tvVideoTiming), 0, 1000);
         }
+    }
+
+    public void stopRecording(){
+        recordButton.setImageDrawable(stoping);
+        stoping.start();
+        bottomPanelBackground.setVisibility(View.VISIBLE);
+        bottomPanelBackground.startAnimation(bottomPanelSlidingUp);
+        tvVideoTiming.setVisibility(View.INVISIBLE);
+        makeViewsAppear();
+        if (recorder != null) {
+            Log.d(TAG, "stop recording");
+            try {
+                recorder.stop();
+            }catch (RuntimeException e){
+                e.printStackTrace();       // video stoped too fast, android doesn't properly create file
+                currentVideoFile.delete(); // http://stackoverflow.com/questions/10147563/android-mediarecorder-stop-failed
+            } finally {
+                releaseMediaRecorder();
+                timer.cancel();
+                isRecording.set(false);
+            }
+        }
+        showVideoThumb();
     }
 
     private void showVideoThumb() {

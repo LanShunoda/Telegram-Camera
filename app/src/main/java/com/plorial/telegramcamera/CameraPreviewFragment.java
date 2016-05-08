@@ -100,7 +100,6 @@ public class CameraPreviewFragment extends Fragment{
             switchButton.setVisibility(View.GONE);
             switchCircle.setVisibility(View.GONE);
         }
-
         return view;
     }
 
@@ -194,6 +193,9 @@ public class CameraPreviewFragment extends Fragment{
     @Override
     public void onPause() {
         super.onPause();
+        if (SwitcherOnTouchListener.isRecording.get()){
+            shotRecordSwitcher.stopRecording();
+        }
         if (camera != null) {
             Log.d(TAG, "camera release");
             camera.stopPreview();
