@@ -219,7 +219,7 @@ public class CameraPreviewFragment extends Fragment{
 
         @Override
         public void onReceive(Context context, Intent intent) {
-           if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+           if (intent.getAction().equals(Intent.ACTION_SCREEN_ON) && camera != null) {
                 preview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
                 try {
                     camera.setPreviewDisplay(preview.getHolder());
