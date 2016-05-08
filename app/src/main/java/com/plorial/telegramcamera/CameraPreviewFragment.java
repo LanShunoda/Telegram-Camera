@@ -116,15 +116,16 @@ public class CameraPreviewFragment extends Fragment{
         switch (cameraParams.getFlashMode()){
             case Camera.Parameters.FLASH_MODE_AUTO:
                 cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                camera.setParameters(cameraParams);
                 break;
             case Camera.Parameters.FLASH_MODE_TORCH:
                 cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                camera.setParameters(cameraParams);
                 break;
             case Camera.Parameters.FLASH_MODE_OFF:
                 cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
-                break;
-            default:
                 camera.setParameters(cameraParams);
+                break;
         }
         flashFlipper.showNext();
     }

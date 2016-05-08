@@ -126,6 +126,11 @@ public class DegreesView extends View implements View.OnTouchListener {
             return false;
     }
 
+    public void resetDegree(){
+        createPoints();
+        invalidate();
+    }
+
     private float getDegree(float point){
         return (float) (radius * Math.sin(point));
     }

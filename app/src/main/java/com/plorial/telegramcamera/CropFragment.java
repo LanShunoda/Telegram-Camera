@@ -34,6 +34,9 @@ public class CropFragment extends Fragment {
     private CropImageView cropImageView;
     private String filePath;
     private FrameLayout degrees;
+    private DegreesView degreesView;
+    private float previousDegree = 0;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,11 +47,10 @@ public class CropFragment extends Fragment {
         filePath = getArguments().getCharSequence(MainActivity.PHOTO_FILE_PATH).toString();
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         cropImageView.setImageBitmap(bitmap);
-        DegreesView degreesView = new DegreesView(getActivity());
+        degreesView = new DegreesView(getActivity());
         degrees.addView(degreesView);
         final TextView tvDegree = (TextView) view.findViewById(R.id.tvDegree);
         degreesView.setDegreeChangedCallback(new DegreesView.DegreeChangedCallback() {
-            float previousDegree = 0;
             @Override
             public void onDegreeChanged(float degree) {
                 cropImageView.rotateImage((int)(degree-previousDegree));
@@ -80,6 +82,8 @@ public class CropFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 cropImageView.resetCropRect();
+                degreesView.resetDegree();
+                previousDegree = 0;
             }
         });
 
