@@ -196,6 +196,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         recorder.setProfile(CamcorderProfile.get(CameraPreviewFragment.currentCameraId, CamcorderProfile.QUALITY_HIGH));
         currentVideoFile = getVideoFile();
+        recorder.setOrientationHint(preview.getDisplayOrientation());
         recorder.setOutputFile(currentVideoFile.getAbsolutePath());
         recorder.setPreviewDisplay(preview.getHolder().getSurface());
 

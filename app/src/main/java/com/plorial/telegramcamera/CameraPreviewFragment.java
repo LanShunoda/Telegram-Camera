@@ -147,7 +147,7 @@ public class CameraPreviewFragment extends Fragment{
         camera = Camera.open(currentCameraId);
         shotButtonOnTouchListener.setCamera(camera);
         shotRecordSwitcher.setCamera(camera);
-        CameraPreview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
+        preview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
         try {
             camera.setPreviewDisplay(preview.getHolder());
         } catch (IOException e) {
@@ -218,7 +218,7 @@ public class CameraPreviewFragment extends Fragment{
         @Override
         public void onReceive(Context context, Intent intent) {
            if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-                CameraPreview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
+                preview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
                 try {
                     camera.setPreviewDisplay(preview.getHolder());
                 } catch (IOException e) {

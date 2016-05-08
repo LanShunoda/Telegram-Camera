@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.AppCompatImageButton;
@@ -155,7 +156,14 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     }
 
     private void takePicture(){
-        camera.takePicture(null, null, getPictureCallback());
+        camera.takePicture(new Camera.ShutterCallback() {
+            @Override
+            public void onShutter() {
+                MediaPlayer player = MediaPlayer.create(view.getContext(), R.raw.camera_shot_sound);
+                player.start();
+                player.release();
+            }
+        }, null, getPictureCallback());
     }
 
     private Camera.PictureCallback getPictureCallback(){

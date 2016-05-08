@@ -23,6 +23,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private SurfaceHolder holder;
     private Camera camera;
     private Context context;
+    private int displayOrientation;
 
     public CameraPreview(Context context) {
         super(context);
@@ -97,7 +98,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         getLayoutParams().width = (int) (rectPreview.right);
     }
 
-    public static void setCameraDisplayOrientation(Context context,
+    public void setCameraDisplayOrientation(Context context,
                                                    int cameraId, android.hardware.Camera camera) {
         android.hardware.Camera.CameraInfo info =
                 new android.hardware.Camera.CameraInfo();
@@ -119,7 +120,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } else {  // back-facing
             result = (info.orientation - degrees + 360) % 360;
         }
+        displayOrientation = result;
         camera.setDisplayOrientation(result);
+    }
+
+    public int getDisplayOrientation() {
+        return displayOrientation;
     }
 
     public void setCamera(Camera camera) {
