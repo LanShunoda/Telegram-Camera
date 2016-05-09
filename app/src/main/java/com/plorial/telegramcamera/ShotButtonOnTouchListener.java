@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,6 +26,7 @@ import android.widget.ViewFlipper;
 import android.widget.ViewSwitcher;
 
 import com.wnafee.vector.compat.AnimatedVectorDrawable;
+import com.wnafee.vector.compat.ResourcesCompat;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,31 +45,48 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     public static final String TAG = ShotButtonOnTouchListener.class.getSimpleName();
     private Camera camera;
     private View view;
+    private SwitcherOnTouchListener switcherOnTouchListener;
     private  ViewSwitcher switcher;
     private  ImageButton bCrop;
     private File photoFile;
     private MediaPlayer player;
     private Handler handler;
+    private static int LONG_PRESS_TIME = 1000;
 
-    public ShotButtonOnTouchListener(View view) {
+    public ShotButtonOnTouchListener(View view, SwitcherOnTouchListener switcherOnTouchListener) {
         this.view = view;
+        this.switcherOnTouchListener = switcherOnTouchListener;
         handler = new Handler();
     }
-
+    private Runnable onLongPress = new Runnable() {
+        @Override
+        public void run() {
+            AppCompatImageButton shotButton = (AppCompatImageButton) view.findViewById(R.id.shotButton);
+            shotButton.setImageDrawable(ResourcesCompat.getDrawable(view.getContext(), R.drawable.shot_button_realised));
+            switcherOnTouchListener.showNext();
+            switcherOnTouchListener.startRecording();
+        }
+    };
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                handler.postDelayed(onLongPress, LONG_PRESS_TIME);
                 AnimatedVectorDrawable pressed = AnimatedVectorDrawable.getDrawable(v.getContext(), R.drawable.shot_button_pressing_vector);
                 ((AppCompatImageButton)v).setImageDrawable(pressed);
                 pressed.start();
                 break;
             case MotionEvent.ACTION_UP:
-                AnimatedVectorDrawable realised = AnimatedVectorDrawable.getDrawable(v.getContext(), R.drawable.shot_button_realising_vector);
-                ((AppCompatImageButton)v).setImageDrawable(realised);
-                realised.start();
-                changePanels();
-                takePicture();
+                handler.removeCallbacks(onLongPress);
+                if(switcherOnTouchListener.isRecording.get()){
+                    switcherOnTouchListener.stopRecording();
+                }else {
+                    AnimatedVectorDrawable realised = AnimatedVectorDrawable.getDrawable(v.getContext(), R.drawable.shot_button_realising_vector);
+                    ((AppCompatImageButton) v).setImageDrawable(realised);
+                    realised.start();
+                    changePanels();
+                    takePicture();
+                }
                 break;
         }
         return true;

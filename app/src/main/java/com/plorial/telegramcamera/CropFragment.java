@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -71,8 +72,11 @@ public class CropFragment extends Fragment {
     public void onResume() {
         super.onResume();
         filePath = getArguments().getCharSequence(MainActivity.PHOTO_FILE_PATH).toString();
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-        cropImageView.setImageBitmap(bitmap);
+        File file = new File(filePath);
+        if (file.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+            cropImageView.setImageBitmap(bitmap);
+        }
     }
 
     private void buttonsSetClickListeners(){

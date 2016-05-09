@@ -134,7 +134,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
         transaction.commit();
     }
 
-    private void startRecording() {
+    public void startRecording() {
         if(isRecording.get()) {
             stopRecording();
         }else {
@@ -285,14 +285,7 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
                 case MotionEvent.ACTION_UP:
                     float toPosition = event.getX();
                     if (fromPosition < toPosition && switcher.getCurrentView() == switcher.getChildAt(0)) {
-                        switcher.showNext();
-                        AnimatedVectorDrawable circlePhotoVideo = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.circle_photo_video_vector);
-                        circle.setImageDrawable(circlePhotoVideo);
-                        circlePhotoVideo.start();
-                        AnimatedVectorDrawable extending = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_extending_vector);
-                        recordButton.setImageDrawable(extending);
-                        extending.start();
-                        bottomBackgroundAnim(colorPicture, colorVideo);
+                        showNext();
                     } else if (fromPosition > toPosition && switcher.getCurrentView() == switcher.getChildAt(1)) {
                         switcher.showPrevious();
                         AnimatedVectorDrawable circleVideoPhoto = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.circle_video_photo_vector);
@@ -309,6 +302,17 @@ public class SwitcherOnTouchListener implements View.OnTouchListener {
             }
         }
         return true;
+    }
+
+    public void showNext(){
+        switcher.showNext();
+        AnimatedVectorDrawable circlePhotoVideo = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.circle_photo_video_vector);
+        circle.setImageDrawable(circlePhotoVideo);
+        circlePhotoVideo.start();
+        AnimatedVectorDrawable extending = AnimatedVectorDrawable.getDrawable(view.getContext(), R.drawable.record_button_extending_vector);
+        recordButton.setImageDrawable(extending);
+        extending.start();
+        bottomBackgroundAnim(colorPicture, colorVideo);
     }
 
     private void bottomBackgroundAnim(int colorFrom, int colorTo){

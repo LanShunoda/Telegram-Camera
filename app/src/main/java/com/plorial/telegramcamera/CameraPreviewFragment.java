@@ -57,7 +57,7 @@ public class CameraPreviewFragment extends Fragment{
         final AppCompatImageButton switchButton = (AppCompatImageButton) view.findViewById(R.id.switchButton);
         TextView tvVideoTiming = (TextView) view.findViewById(R.id.tvVideoTiming);
         tvVideoTiming.setVisibility(View.INVISIBLE);
-        shotButtonOnTouchListener = new ShotButtonOnTouchListener(view);
+        shotButtonOnTouchListener = new ShotButtonOnTouchListener(view, shotRecordSwitcher);
         shotButton.setOnTouchListener(shotButtonOnTouchListener);
         flashFlipper = (ViewFlipper) view.findViewById(R.id.flashFlipper);
         if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
