@@ -45,7 +45,7 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     private View view;
     private  ViewSwitcher switcher;
     private  ImageButton bCrop;
-    private String photoFilePath;
+    private File photoFile;
     private MediaPlayer player;
     private Handler handler;
 
@@ -106,9 +106,8 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
         bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(photoFilePath);
-                if(file != null) {
-                    file.delete();
+                if(photoFile != null) {
+                    photoFile.delete();
                 }
                 beginAgainCameraPreview();
             }
@@ -126,7 +125,7 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     private void startCropFragment() {
         CropFragment fragment = new CropFragment();
         Bundle bundle = new Bundle();
-        bundle.putCharSequence(MainActivity.PHOTO_FILE_PATH, photoFilePath);
+        bundle.putCharSequence(MainActivity.PHOTO_FILE_PATH, photoFile.getAbsolutePath());
         fragment.setArguments(bundle);
         FragmentTransaction transaction = ((Activity)view.getContext()).getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
@@ -152,8 +151,6 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
 
     @Override
     public void onPictureTaken(final byte[] data, Camera camera) {
-        final File photoFile = createFile();
-        photoFilePath = photoFile.getAbsolutePath();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -163,6 +160,7 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     }
 
     private void takePicture(){
+        photoFile = createFile();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

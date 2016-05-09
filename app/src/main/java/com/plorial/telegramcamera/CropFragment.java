@@ -42,12 +42,8 @@ public class CropFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.crop_fragment, container, false);
-
         cropImageView = (CropImageView) view.findViewById(R.id.cropImageView);
         degrees = (FrameLayout) view.findViewById(R.id.degreesView);
-        filePath = getArguments().getCharSequence(MainActivity.PHOTO_FILE_PATH).toString();
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-        cropImageView.setImageBitmap(bitmap);
         degreesView = new DegreesView(getActivity());
         degrees.addView(degreesView);
         final TextView tvDegree = (TextView) view.findViewById(R.id.tvDegree);
@@ -69,6 +65,14 @@ public class CropFragment extends Fragment {
         buttonsSetClickListeners();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        filePath = getArguments().getCharSequence(MainActivity.PHOTO_FILE_PATH).toString();
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+        cropImageView.setImageBitmap(bitmap);
     }
 
     private void buttonsSetClickListeners(){

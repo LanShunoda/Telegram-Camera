@@ -10,7 +10,6 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageButton;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +41,7 @@ public class CameraPreviewFragment extends Fragment{
     private ShotButtonOnTouchListener shotButtonOnTouchListener;
     private  SwitcherOnTouchListener shotRecordSwitcher;
     private BroadcastReceiver receiver;
+    private CameraOpener cameraOpener;
 
     @Nullable
     @Override
@@ -100,24 +100,18 @@ public class CameraPreviewFragment extends Fragment{
             switchButton.setVisibility(View.GONE);
             switchCircle.setVisibility(View.GONE);
         }
+        cameraOpener = new CameraOpener(getActivity(),shotButtonOnTouchListener,shotRecordSwitcher,preview,this);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        camera = getCameraInstance(currentCameraId);
-        camera.setErrorCallback(new CameraErrorCallback(getActivity(), preview));
-        preview.setCamera(camera);
-        cameraParams = camera.getParameters();
-        cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
-        camera.setParameters(cameraParams);
-        shotButtonOnTouchListener.setCamera(camera);
-        shotRecordSwitcher.setCamera(camera);
-
+        cameraOpener.open();
     }
 
     private void changeFlash() {
+        cameraParams = camera.getParameters();
         switch (cameraParams.getFlashMode()){
             case Camera.Parameters.FLASH_MODE_AUTO:
                 cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -144,16 +138,7 @@ public class CameraPreviewFragment extends Fragment{
         else {
             currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
         }
-        camera = Camera.open(currentCameraId);
-        shotButtonOnTouchListener.setCamera(camera);
-        shotRecordSwitcher.setCamera(camera);
-        preview.setCameraDisplayOrientation(getActivity(), currentCameraId, camera);
-        try {
-            camera.setPreviewDisplay(preview.getHolder());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        camera.startPreview();
+        cameraOpener.open();
     }
 
     private int getAvailableCamera(){
@@ -166,28 +151,6 @@ public class CameraPreviewFragment extends Fragment{
             }
         } else {
             return -1;
-        }
-    }
-
-    private Camera getCameraInstance(int id){
-        Camera c = null;
-        try {
-            if(checkCameraHardware(getActivity())) {
-                c = Camera.open(id);
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            Log.e(TAG, "Camera isn't available");
-        }
-        return c;
-    }
-
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -214,6 +177,10 @@ public class CameraPreviewFragment extends Fragment{
 
         receiver = new ScreenReceiver();
         getActivity().registerReceiver(receiver, filter);
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     class ScreenReceiver extends BroadcastReceiver {

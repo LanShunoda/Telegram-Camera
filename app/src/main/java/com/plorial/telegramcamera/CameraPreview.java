@@ -37,9 +37,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public void surfaceCreated(SurfaceHolder holder) {
         try {
-            camera.setPreviewDisplay(holder);
-            camera.startPreview();
-            setPreviewSize();
+                camera.setPreviewDisplay(holder);
+                camera.startPreview();
+                setPreviewSize();
+
         } catch (IOException e) {
             Log.d(TAG, "Error setting camera preview: " + e.getMessage());
         }
@@ -129,6 +130,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void setCamera(Camera camera) {
-        this.camera = camera;
+            this.camera = camera;
     }
 }
