@@ -107,6 +107,7 @@ public class CameraPreviewFragment extends Fragment{
     public void onResume() {
         super.onResume();
         camera = getCameraInstance(currentCameraId);
+        camera.setErrorCallback(new CameraErrorCallback(getActivity(), preview));
         preview.setCamera(camera);
         cameraParams = camera.getParameters();
         cameraParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);

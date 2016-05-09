@@ -8,6 +8,7 @@ import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -33,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+
 /**
  * Created by plorial on 5/1/16.
  */
@@ -42,12 +44,14 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     private Camera camera;
     private View view;
     private  ViewSwitcher switcher;
-    private byte[] data;
     private  ImageButton bCrop;
     private String photoFilePath;
+    private MediaPlayer player;
+    private Handler handler;
 
     public ShotButtonOnTouchListener(View view) {
         this.view = view;
+        handler = new Handler();
     }
 
     @Override
@@ -102,20 +106,17 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
         bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               beginAgainCameraPreview();
+                File file = new File(photoFilePath);
+                if(file != null) {
+                    file.delete();
+                }
+                beginAgainCameraPreview();
             }
         });
 
         bDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File photoFile = createFile();
-                        new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        writePhoto(data,photoFile);
-                    }
-                }).start();
                 beginAgainCameraPreview();
             }
 
@@ -123,14 +124,6 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     }
 
     private void startCropFragment() {
-        final File photoFile = createFile();
-        photoFilePath = photoFile.getAbsolutePath();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                writePhoto(data,photoFile);
-            }
-        }).start();
         CropFragment fragment = new CropFragment();
         Bundle bundle = new Bundle();
         bundle.putCharSequence(MainActivity.PHOTO_FILE_PATH, photoFilePath);
@@ -147,23 +140,41 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
         if(flashFlipper.getVisibility() != View.GONE) {
             flashFlipper.setVisibility(View.VISIBLE);
         }
+        if(player!=null) {
+            if(player.isPlaying())
+                player.stop();
+            player.reset();
+            player.release();
+            player=null;
+        }
         camera.startPreview();
     }
 
     @Override
-    public void onPictureTaken(byte[] data, Camera camera) {
-        this.data = data;
+    public void onPictureTaken(final byte[] data, Camera camera) {
+        final File photoFile = createFile();
+        photoFilePath = photoFile.getAbsolutePath();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                writePhoto(data, photoFile);
+            }
+        }).start();
     }
 
     private void takePicture(){
-        camera.takePicture(new Camera.ShutterCallback() {
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onShutter() {
-                MediaPlayer player = MediaPlayer.create(view.getContext(), R.raw.camera_shot_sound);
-                player.start();
-                player.release();
+            public void run() {
+                camera.takePicture(new Camera.ShutterCallback() {
+                    @Override
+                    public void onShutter() {
+                        player = MediaPlayer.create(view.getContext(), R.raw.camera_shot_sound);
+                        player.start();
+                    }
+                }, null, getPictureCallback());
             }
-        }, null, getPictureCallback());
+        },250);
     }
 
     private Camera.PictureCallback getPictureCallback(){
