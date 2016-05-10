@@ -95,8 +95,8 @@ public class ShotButtonOnTouchListener implements View.OnTouchListener, Camera.P
     private void changePanels(){
 
         switcher = (ViewSwitcher) view.findViewById(R.id.bottom_panel_switcher);
-        Button bCancel = (Button) view.findViewById(R.id.buttonCancel);
-        Button bDone = (Button) view.findViewById(R.id.buttonDone);
+        ImageButton bCancel = (ImageButton) view.findViewById(R.id.buttonCancel);
+        ImageButton bDone = (ImageButton) view.findViewById(R.id.buttonDone);
         ScaleAnimation scaleAnimation = new ScaleAnimation(0.1f,1f,0.1f,1f,Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF,0.5f);
         scaleAnimation.setDuration(SwitcherOnTouchListener.ANIM_SPEED/2);
         Animation inAnim = new AlphaAnimation(0, 1);

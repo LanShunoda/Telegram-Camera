@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.VideoView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
@@ -87,8 +88,8 @@ public class VideoPlayerFragment extends Fragment {
     }
 
     private void setClickListeners() {
-        Button bCancel = (Button) view.findViewById(R.id.buttonCancelVideo);
-        Button bDone = (Button) view.findViewById(R.id.buttonDoneVideo);
+        ImageButton bCancel = (ImageButton) view.findViewById(R.id.buttonCancelVideo);
+        ImageButton bDone = (ImageButton) view.findViewById(R.id.buttonDoneVideo);
         bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

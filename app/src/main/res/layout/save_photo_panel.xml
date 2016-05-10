@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:layout_gravity="bottom"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
@@ -11,17 +11,18 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true">
 
-    <Button
-        android:layout_width="78dp"
-        android:layout_height="78dp"
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/buttonCancel"
-        android:background="@drawable/btn_cancel_"
-        android:layout_alignParentBottom="true"
+        android:src="@drawable/btn_cancel_"
+        android:background="#00000000"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="40dp"
         android:layout_marginStart="40dp"
-        android:paddingBottom="11dp"/>
+         />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -29,21 +30,19 @@
         android:id="@+id/crop"
         android:src="@drawable/crop"
         android:background="#00000000"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="26dp"
-        android:paddingBottom="26dp" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:layout_width="78dp"
-        android:layout_height="78dp"
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/buttonDone"
-        android:background="@drawable/btn_done_"
-        android:layout_alignParentBottom="true"
+        android:src="@drawable/btn_done_"
+        android:background="#00000000"
+        android:layout_alignTop="@+id/buttonCancel"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp"
-        android:paddingBottom="11dp"/>
+        android:layout_marginEnd="40dp" />
 
 </RelativeLayout>

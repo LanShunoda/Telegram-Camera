@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class DegreesView extends View implements View.OnTouchListener {
 
     private ArrayList<Float> points;
     private float fromPosition;
+    private Paint paintPivot;
 
     public DegreesView(Context context) {
         super(context);
@@ -43,15 +45,18 @@ public class DegreesView extends View implements View.OnTouchListener {
         paintBlue.setColor(Color.BLUE);
         centerPaint = new Paint();
         centerPaint.setColor(Color.BLUE);
-        centerPaint.setStrokeWidth(2f);
+        centerPaint.setStrokeWidth(4f);
+        paintPivot = new Paint();
+        paintPivot.setColor(Color.BLUE);
+        paintPivot.setStrokeWidth(2f);
         Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         Drawable d = context.getResources().getDrawable(R.drawable.rotate);
 
         centerX = display.getWidth()/2;
         radius = centerX - d.getMinimumWidth()*2;
 
-        startY = 0.2f;
-        stopY = d.getMinimumHeight()/2;
+        startY = 0.4f;
+        stopY = d.getMinimumHeight()/1.5f;
         createPoints();
         this.setOnTouchListener(this);
     }
@@ -80,7 +85,7 @@ public class DegreesView extends View implements View.OnTouchListener {
             }
         }
         if(pivotPoint > -Math.PI/2 && pivotPoint < Math.PI/2) {
-            canvas.drawLine(centerX + getDegree(pivotPoint), 0.1f, centerX + getDegree(pivotPoint), stopY * 1.25f, paintBlue);
+            canvas.drawLine(centerX + getDegree(pivotPoint), 0.2f, centerX + getDegree(pivotPoint), stopY * 1.25f, paintPivot);
         }
         if(degreeChangedCallback != null){
             degreeChangedCallback.onDegreeChanged((float) Math.toDegrees(pivotPoint) * (-1));

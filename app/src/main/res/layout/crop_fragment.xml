@@ -33,7 +33,10 @@
             android:layout_alignParentEnd="true"
             android:src="@drawable/rotate"
             android:background="#00ffffff"
-            android:layout_margin="10dp" />
+            android:layout_margin="0dp"
+            android:padding="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -58,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="CANCEL"
             android:id="@+id/bCancel"
-            android:background="#00ffffff"
+            android:background="#25272a"
             android:textColor="#ffffffff"
             android:paddingRight="5dp" />
 
@@ -70,7 +73,7 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/bCancel"
             android:layout_toEndOf="@+id/bCancel"
-            android:background="#00ffffff"
+            android:background="#25272a"
             android:textColor="#ffffffff"
             android:paddingLeft="5dp" />
 
@@ -82,7 +85,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="#00ffffff"
+            android:background="#25272a"
             android:textColor="#54acf0"/>
     </RelativeLayout>
 
